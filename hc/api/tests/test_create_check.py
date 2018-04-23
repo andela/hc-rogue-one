@@ -57,33 +57,33 @@ class CreateCheckTestCase(BaseTestCase):
         r = self.client.post(self.URL, payload,
                              content_type="application/json",
                              HTTP_X_API_KEY="abc")
-        # r = {'status_code': 201} ### This is just a placeholder variable
 
         self.assertEqual(r.status_code, 201)
 
-    # def test_it_handles_missing_request_body(self):
-    #     ### Make the post request with a missing body and get the response
-    #     r = {'status_code': 400, 'error': "wrong api_key"} ### This is just a placeholder variable
-    #     self.assertEqual(r['status_code'], 400)
-    #     self.assertEqual(r["error"], "wrong api_key")
+    def test_it_handles_missing_request_body(self):
+        ### Make the post request with a missing body and get the response
+        r = self.client.post(self.URL, content_type="application/json")
+        self.assertEqual(r.status_code, 400)
+        self.assertEqual(r.json()["error"], "wrong api_key")
 
-    # def test_it_handles_invalid_json(self):
-    #     ### Make the post request with invalid json data type
-    #     r = {'status_code': 400, 'error': "could not parse request body"} ### This is just a placeholder variable
-    #     self.assertEqual(r['status_code'], 400)
-    #     self.assertEqual(r["error"], "could not parse request body")
+    def test_it_handles_invalid_json(self):
+        ### Make the post request with invalid json data type
+        r = self.client.post(self.URL, "This is not even close to json",
+                             content_type="application/json")
+        self.assertEqual(r.status_code, 400)
+        self.assertEqual(r.json()["error"], "could not parse request body")
 
-    # def test_it_rejects_wrong_api_key(self):
-    #     self.post({"api_key": "wrong"},
-    #               expected_error="wrong api_key")
+    def test_it_rejects_wrong_api_key(self):
+        self.post({"api_key": "wrong"},
+                  expected_error="wrong api_key")
 
-    # def test_it_rejects_non_number_timeout(self):
-    #     self.post({"api_key": "abc", "timeout": "oops"},
-    #               expected_error="timeout is not a number")
+    def test_it_rejects_non_number_timeout(self):
+        self.post({"api_key": "abc", "timeout": "oops"},
+                  expected_error="timeout is not a number")
 
-    # def test_it_rejects_non_string_name(self):
-    #     self.post({"api_key": "abc", "name": False},
-    #               expected_error="name is not a string")
+    def test_it_rejects_non_string_name(self):
+        self.post({"api_key": "abc", "name": False},
+                  expected_error="name is not a string")
 
     # ### Test for the assignment of channels
     # ### Test for the 'timeout is too small' and 'timeout is too large' errors
