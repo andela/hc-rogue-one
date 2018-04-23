@@ -9,11 +9,20 @@ class ApiAdminTestCase(BaseTestCase):
         self.check = Check.objects.create(user=self.alice, tags="foo bar")
 
         ### Set Alice to be staff and superuser and save her :)
+        self.alice.is_staff = True
+        self.alice.is_superuser = True
+        self.alice.save()
 
     def test_it_shows_channel_list_with_pushbullet(self):
         self.client.login(username="alice@example.org", password="password")
 
         ch = Channel(user=self.alice, kind="pushbullet", value="test-token")
+        # print (ch)
         ch.save()
+      
 
         ### Assert for the push bullet
+        res = self.client.get("/admin/api/channel/")
+        # print (res)
+        self.assertContains(res, "Pushbullet")
+       
