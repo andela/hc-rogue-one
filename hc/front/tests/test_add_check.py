@@ -14,7 +14,7 @@ class AddCheckTestCase(BaseTestCase):
     ### Test that team access works
     def test_that_team_access_works(self):
         url = "/checks/add/"
-        self.client.login(username="bob@example.com", password="password")
+        self.client.login(username="bob@example.org", password="password")
         r = self.client.post(url)
         self.assertRedirects(r, "/checks/")
         assert Check.objects.count() == 1
