@@ -17,12 +17,10 @@ class ApiAdminTestCase(BaseTestCase):
         self.client.login(username="alice@example.org", password="password")
 
         ch = Channel(user=self.alice, kind="pushbullet", value="test-token")
-        # print (ch)
         ch.save()
       
 
         ### Assert for the push bullet
         res = self.client.get("/admin/api/channel/")
-        # print (res)
         self.assertContains(res, "Pushbullet")
        
