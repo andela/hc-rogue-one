@@ -21,7 +21,8 @@ class SendAlertsTestCase(BaseTestCase):
             check.save()
 
         result = Command().handle_many()
-        assert result, "handle_many should return True"
+        self.assertTrue(result)
+
 
         handled_names = []
         for args, kwargs in mock.call_args_list:
