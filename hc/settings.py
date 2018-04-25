@@ -87,6 +87,7 @@ DATABASES = {
 
 # You can switch database engine to postgres or mysql using environment
 # variable 'DB'. Travis CI does this.
+
 if os.environ.get("DB") == "postgres":
     DATABASES = {
         'default': {
@@ -111,18 +112,22 @@ if os.environ.get("DB") == "heroku":
             'TEST': {'CHARSET': 'UTF8'}
         }
     }
+HC_USER = os.environ.get("HC_USER")
+HC_NAME = os.environ.get("HC_NAME")
+HC_HOST = os.environ.get("HC_HOST")
+HC_PASSWORD = os.environ.get("HC_PASSWORD")
 
-# if os.environ.get("DB") == "heroku":
-#     DATABASES = {
-#         'default': {
-#             'ENGINE':   'django.db.backends.postgresql',
-#             'USER':     'ouopvxrbnhzccx',
-#             'NAME':     'd6pggma5mlc41j',
-#             'HOST':     'ec2-107-20-249-68.compute-1.amazonaws.com',
-#             'PASSWORD': 'b5e97c31b5778a521a55f15686c44318f5bea216da38dfa349f44350c3f6d4e4',
-#             'TEST': {'CHARSET': 'UTF8'}
-#         }
-#     }
+if os.environ.get("DB") == "heroku":
+    DATABASES = {
+        'default': {
+            'ENGINE':   'django.db.backends.postgresql',
+            'USER':     HC_USER,
+            'NAME':     HC_NAME,
+            'HOST':     HC_HOST,
+            'PASSWORD': HC_PASSWORD,
+            'TEST': {'CHARSET': 'UTF8'}
+        }
+    }
 
 if os.environ.get("DB") == "mysql":
     DATABASES = {
