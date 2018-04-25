@@ -104,8 +104,10 @@ if os.environ.get("DB") == "heroku":
     DATABASES = {
         'default': {
             'ENGINE':   'django.db.backends.postgresql',
-            'NAME':     'hc',
-            'USER':     'postgres',
+            'USER':     'ouopvxrbnhzccx',
+            'NAME':     'd6pggma5mlc41j',
+            'HOST':     'ec2-107-20-249-68.compute-1.amazonaws.com',
+            'PASSWORD': 'b5e97c31b5778a521a55f15686c44318f5bea216da38dfa349f44350c3f6d4e4',
             'TEST': {'CHARSET': 'UTF8'}
         }
     }
@@ -114,10 +116,8 @@ if os.environ.get("DB") == "mysql":
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'USER':     'ouopvxrbnhzccx',
-            'NAME':     'd6pggma5mlc41j',
-            'HOST':     'ec2-107-20-249-68.compute-1.amazonaws.com'
-            'PASSWORD': 'b5e97c31b5778a521a55f15686c44318f5bea216da38dfa349f44350c3f6d4e4'
+            'USER':     'root',
+            'NAME':     'hc',
             'TEST': {'CHARSET': 'UTF8'}
         }
     }
