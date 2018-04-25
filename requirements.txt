@@ -21,5 +21,6 @@ djmail==0.11.0
 premailer==2.9.6
 psycopg2-binary==2.7.4
 psycopg2==2.7.1
+psycopg2-binary==2.7.4
 rcssmin==1.0.6
 whitenoise==3.3.1
