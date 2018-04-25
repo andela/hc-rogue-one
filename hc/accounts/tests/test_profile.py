@@ -6,7 +6,6 @@ from hc.api.models import Check
 
 
 class ProfileTestCase(BaseTestCase):
-
     def test_it_sends_set_password_link(self):
         self.client.login(username="alice@example.org", password="password")
 
@@ -50,7 +49,7 @@ class ProfileTestCase(BaseTestCase):
         for member in self.alice.profile.member_set.all():
             member_emails.add(member.user.email)
 
-        ### Assert the existence of the member emails
+        # Assert the existence of the member emails
 
         self.assertTrue("frank@example.org" in member_emails)
 

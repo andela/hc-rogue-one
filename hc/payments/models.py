@@ -11,7 +11,6 @@ else:
 
 
 class SubscriptionManager(models.Manager):
-
     def for_user(self, user):
         sub, created = Subscription.objects.get_or_create(user_id=user.id)
         return sub

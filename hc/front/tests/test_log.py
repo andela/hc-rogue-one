@@ -3,7 +3,6 @@ from hc.test import BaseTestCase
 
 
 class LogTestCase(BaseTestCase):
-
     def setUp(self):
         super(LogTestCase, self).setUp()
         self.check = Check(user=self.alice)

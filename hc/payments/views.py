@@ -20,7 +20,8 @@ else:
 def get_client_token(request):
     sub = Subscription.objects.for_user(request.user)
     client_token = braintree.ClientToken.generate({
-        "customer_id": sub.customer_id
+        "customer_id":
+        sub.customer_id
     })
 
     return JsonResponse({"client_token": client_token})
@@ -69,9 +70,7 @@ def create_plan(request):
 
     # Create Braintree customer record
     if not sub.customer_id:
-        result = braintree.Customer.create({
-            "email": request.user.email
-        })
+        result = braintree.Customer.create({"email": request.user.email})
         if not result.is_success:
             return log_and_bail(request, result)
 
@@ -81,8 +80,10 @@ def create_plan(request):
     # Create Braintree payment method
     if "payment_method_nonce" in request.POST:
         result = braintree.PaymentMethod.create({
-            "customer_id": sub.customer_id,
-            "payment_method_nonce": request.POST["payment_method_nonce"]
+            "customer_id":
+            sub.customer_id,
+            "payment_method_nonce":
+            request.POST["payment_method_nonce"]
         })
 
         if not result.is_success:
@@ -93,8 +94,10 @@ def create_plan(request):
 
     # Create Braintree subscription
     result = braintree.Subscription.create({
-        "payment_method_token": sub.payment_method_token,
-        "plan_id": plan_id,
+        "payment_method_token":
+        sub.payment_method_token,
+        "plan_id":
+        plan_id,
     })
 
     if not result.is_success:
@@ -131,17 +134,18 @@ def update_payment_method(request):
         return HttpResponseBadRequest()
 
     result = braintree.PaymentMethod.create({
-        "customer_id": sub.customer_id,
-        "payment_method_nonce": request.POST["payment_method_nonce"]
+        "customer_id":
+        sub.customer_id,
+        "payment_method_nonce":
+        request.POST["payment_method_nonce"]
     })
 
     if not result.is_success:
         return log_and_bail(request, result)
 
     payment_method_token = result.payment_method.token
-    result = braintree.Subscription.update(sub.subscription_id, {
-        "payment_method_token": payment_method_token
-    })
+    result = braintree.Subscription.update(
+        sub.subscription_id, {"payment_method_token": payment_method_token})
 
     if not result.is_success:
         return log_and_bail(request, result)

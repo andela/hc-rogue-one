@@ -14,7 +14,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Notification',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
+                ('id',
+                 models.AutoField(
+                     serialize=False,
+                     auto_created=True,
+                     verbose_name='ID',
+                     primary_key=True)),
                 ('check_status', models.CharField(max_length=6)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('status', models.IntegerField(default=0)),

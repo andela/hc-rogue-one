@@ -16,6 +16,7 @@ def uuid_or_400(f):
             return HttpResponseBadRequest()
 
         return f(request, *args, **kwds)
+
     return wrapper
 
 
@@ -78,5 +79,7 @@ def validate_json(schema):
                         return make_error("%s is too large" % key)
 
             return f(request, *args, **kwds)
+
         return wrapper
+
     return decorator

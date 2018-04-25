@@ -5,7 +5,6 @@ from hc.accounts.models import Member, Profile
 
 
 class BaseTestCase(TestCase):
-
     def setUp(self):
         super(BaseTestCase, self).setUp()
 
@@ -35,4 +34,4 @@ class BaseTestCase(TestCase):
         self.charlie.set_password("password")
         self.charlie.save()
 
-        ### Set Charles not to have access to Alice's stuff
+        # Set Charles not to have access to Alice's stuff

@@ -9,11 +9,8 @@ from hc.api.models import Channel, Check
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-
     class Media:
-        css = {
-            'all': ('css/admin/profiles.css',)
-        }
+        css = {'all': ('css/admin/profiles.css', )}
 
     list_display = ("id", "users", "reports_allowed", "next_report_date",
                     "ping_log_limit")
@@ -25,17 +22,16 @@ class ProfileAdmin(admin.ModelAdmin):
         if obj.member_set.count() == 0:
             return obj.user.email
         else:
-            return render_to_string("admin/profile_list_team.html", {
-                "profile": obj
-            })
+            return render_to_string("admin/profile_list_team.html",
+                                    {"profile": obj})
 
     users.allow_tags = True
 
 
 class HcUserAdmin(UserAdmin):
     actions = ["send_report"]
-    list_display = ('id', 'email', 'date_joined', 'involvement',
-                    'is_staff', 'checks')
+    list_display = ('id', 'email', 'date_joined', 'involvement', 'is_staff',
+                    'checks')
 
     ordering = ["-id"]
 

@@ -4,7 +4,6 @@ from hc.api.models import Check
 
 
 class BasicsTestCase(TestCase):
-
     def test_it_shows_welcome(self):
         r = self.client.get("/")
         self.assertContains(r, "Get Notified", status_code=200)

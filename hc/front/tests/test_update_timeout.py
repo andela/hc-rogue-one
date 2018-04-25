@@ -3,7 +3,6 @@ from hc.test import BaseTestCase
 
 
 class UpdateTimeoutTestCase(BaseTestCase):
-
     def setUp(self):
         super(UpdateTimeoutTestCase, self).setUp()
         self.check = Check(user=self.alice)

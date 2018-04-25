@@ -61,7 +61,6 @@ class Email(Transport):
 
 
 class HttpTransport(Transport):
-
     def request(self, method, url, **kwargs):
         try:
             options = dict(kwargs)
@@ -166,11 +165,7 @@ class Pushbullet(HttpTransport):
             "Access-Token": self.channel.value,
             "Conent-Type": "application/json"
         }
-        payload = {
-            "type": "note",
-            "title": "healthchecks.io",
-            "body": text
-        }
+        payload = {"type": "note", "title": "healthchecks.io", "body": text}
 
         return self.post(url, payload, headers=headers)
 
@@ -209,7 +204,8 @@ class VictorOps(HttpTransport):
         description = tmpl("victorops_description.html", check=check)
         payload = {
             "entity_id": str(check.code),
-            "message_type": "CRITICAL" if check.status == "down" else "RECOVERY",
+            "message_type": "CRITICAL"
+            if check.status == "down" else "RECOVERY",
             "entity_display_name": check.name_then_code(),
             "state_message": description,
             "monitoring_tool": "healthchecks.io",

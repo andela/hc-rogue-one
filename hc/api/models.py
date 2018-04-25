@@ -13,18 +13,14 @@ from django.utils import timezone
 from hc.api import transports
 from hc.lib import emails
 
-STATUSES = (
-    ("up", "Up"),
-    ("down", "Down"),
-    ("new", "New"),
-    ("paused", "Paused")
-)
+STATUSES = (("up", "Up"), ("down", "Down"), ("new", "New"), ("paused",
+                                                             "Paused"))
 DEFAULT_TIMEOUT = td(days=1)
 DEFAULT_GRACE = td(hours=1)
 CHANNEL_KINDS = (("email", "Email"), ("webhook", "Webhook"),
-                 ("hipchat", "HipChat"),
-                 ("slack", "Slack"), ("pd", "PagerDuty"), ("po", "Pushover"),
-                 ("victorops", "VictorOps"))
+                 ("hipchat", "HipChat"), ("slack", "Slack"),
+                 ("pd", "PagerDuty"), ("po", "Pushover"), ("victorops",
+                                                           "VictorOps"))
 
 PO_PRIORITIES = {
     -2: "lowest",
@@ -36,7 +32,6 @@ PO_PRIORITIES = {
 
 
 class Check(models.Model):
-
     class Meta:
         # sendalerts command will query using these
         index_together = ["status", "user", "alert_after"]

@@ -23,7 +23,6 @@ class TimeoutForm(forms.Form):
 
 
 class AddChannelForm(forms.ModelForm):
-
     class Meta:
         model = Channel
         fields = ['kind', 'value']

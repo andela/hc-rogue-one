@@ -5,7 +5,6 @@ from django.utils import timezone
 
 
 class MyChecksTestCase(BaseTestCase):
-
     def setUp(self):
         super(MyChecksTestCase, self).setUp()
         self.check = Check(user=self.alice, name="Alice Was Here")

@@ -276,7 +276,8 @@ def channels(request):
         channel.checks = new_checks
         return redirect("hc-channels")
 
-    channels = Channel.objects.filter(user=request.team.user).order_by("created")
+    channels = Channel.objects.filter(
+        user=request.team.user).order_by("created")
     channels = channels.annotate(n_checks=Count("checks"))
 
     num_checks = Check.objects.filter(user=request.team.user).count()
@@ -324,11 +325,7 @@ def channel_checks(request, code):
     assigned = set(channel.checks.values_list('code', flat=True).distinct())
     checks = Check.objects.filter(user=request.team.user).order_by("created")
 
-    ctx = {
-        "checks": checks,
-        "assigned": assigned,
-        "channel": channel
-    }
+    ctx = {"checks": checks, "assigned": assigned, "channel": channel}
 
     return render(request, "front/channel_checks.html", ctx)
 
@@ -393,10 +390,7 @@ def add_slack(request):
     if not settings.SLACK_CLIENT_ID and not request.user.is_authenticated:
         return redirect("hc-login")
 
-    ctx = {
-        "page": "channels",
-        "slack_client_id": settings.SLACK_CLIENT_ID
-    }
+    ctx = {"page": "channels", "slack_client_id": settings.SLACK_CLIENT_ID}
     return render(request, "integrations/add_slack.html", ctx)
 
 
@@ -406,11 +400,12 @@ def add_slack_btn(request):
     if len(code) < 8:
         return HttpResponseBadRequest()
 
-    result = requests.post("https://slack.com/api/oauth.access", {
-        "client_id": settings.SLACK_CLIENT_ID,
-        "client_secret": settings.SLACK_CLIENT_SECRET,
-        "code": code
-    })
+    result = requests.post(
+        "https://slack.com/api/oauth.access", {
+            "client_id": settings.SLACK_CLIENT_ID,
+            "client_secret": settings.SLACK_CLIENT_SECRET,
+            "code": code
+        })
 
     doc = result.json()
     if doc.get("ok"):
@@ -444,12 +439,13 @@ def add_pushbullet(request):
         if len(code) < 8:
             return HttpResponseBadRequest()
 
-        result = requests.post("https://api.pushbullet.com/oauth2/token", {
-            "client_id": settings.PUSHBULLET_CLIENT_ID,
-            "client_secret": settings.PUSHBULLET_CLIENT_SECRET,
-            "code": code,
-            "grant_type": "authorization_code"
-        })
+        result = requests.post(
+            "https://api.pushbullet.com/oauth2/token", {
+                "client_id": settings.PUSHBULLET_CLIENT_ID,
+                "client_secret": settings.PUSHBULLET_CLIENT_SECRET,
+                "code": code,
+                "grant_type": "authorization_code"
+            })
 
         doc = result.json()
         if "access_token" in doc:
@@ -466,16 +462,14 @@ def add_pushbullet(request):
         return redirect("hc-channels")
 
     redirect_uri = settings.SITE_ROOT + reverse("hc-add-pushbullet")
-    authorize_url = "https://www.pushbullet.com/authorize?" + urlencode({
-        "client_id": settings.PUSHBULLET_CLIENT_ID,
-        "redirect_uri": redirect_uri,
-        "response_type": "code"
-    })
+    authorize_url = "https://www.pushbullet.com/authorize?" + urlencode(
+        {
+            "client_id": settings.PUSHBULLET_CLIENT_ID,
+            "redirect_uri": redirect_uri,
+            "response_type": "code"
+        })
 
-    ctx = {
-        "page": "channels",
-        "authorize_url": authorize_url
-    }
+    ctx = {"page": "channels", "authorize_url": authorize_url}
     return render(request, "integrations/add_pushbullet.html", ctx)
 
 
@@ -490,14 +484,17 @@ def add_pushover(request):
         request.session["po_nonce"] = nonce
 
         failure_url = settings.SITE_ROOT + reverse("hc-channels")
-        success_url = settings.SITE_ROOT + reverse("hc-add-pushover") + "?" + urlencode({
-            "nonce": nonce,
-            "prio": request.POST.get("po_priority", "0"),
-        })
-        subscription_url = settings.PUSHOVER_SUBSCRIPTION_URL + "?" + urlencode({
-            "success": success_url,
-            "failure": failure_url,
-        })
+        success_url = settings.SITE_ROOT + reverse(
+            "hc-add-pushover") + "?" + urlencode(
+                {
+                    "nonce": nonce,
+                    "prio": request.POST.get("po_priority", "0"),
+                })
+        subscription_url = settings.PUSHOVER_SUBSCRIPTION_URL + "?" + urlencode(
+            {
+                "success": success_url,
+                "failure": failure_url,
+            })
 
         return redirect(subscription_url)
 

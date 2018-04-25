@@ -14,6 +14,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='channel',
             name='kind',
-            field=models.CharField(max_length=20, choices=[('email', 'Email'), ('webhook', 'Webhook'), ('hipchat', 'HipChat'), ('slack', 'Slack'), ('pd', 'PagerDuty')]),
+            field=models.CharField(
+                max_length=20,
+                choices=[('email', 'Email'), ('webhook', 'Webhook'),
+                         ('hipchat', 'HipChat'), ('slack', 'Slack'),
+                         ('pd', 'PagerDuty')]),
         ),
     ]

@@ -9,7 +9,7 @@ from hc.api.models import Check
 
 
 def num_pinged_checks(profile):
-    q = Check.objects.filter(user_id=profile.user.id,)
+    q = Check.objects.filter(user_id=profile.user.id, )
     q = q.filter(last_ping__isnull=False)
     return q.count()
 

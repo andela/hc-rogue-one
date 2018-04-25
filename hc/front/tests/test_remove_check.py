@@ -3,7 +3,6 @@ from hc.test import BaseTestCase
 
 
 class RemoveCheckTestCase(BaseTestCase):
-
     def setUp(self):
         super(RemoveCheckTestCase, self).setUp()
         self.check = Check(user=self.alice)

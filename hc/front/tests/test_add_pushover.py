@@ -37,6 +37,7 @@ class AddPushoverTestCase(BaseTestCase):
         r = self.client.get("/integrations/add_pushover/?%s" % params)
         assert r.status_code == 403
 
+<<<<<<< a70553ab6ef3aa5f75e3dca1864868c8f5ee6646:hc/front/tests/test_add_pushover.py
     ### Test that pushover validates priority
     def test_pushover_validates_priority(self):
         self.client.login(username="alice@example.org", password="password")
@@ -48,3 +49,6 @@ class AddPushoverTestCase(BaseTestCase):
         params = "pushover_user_key=a&nonce=n&prio=3"
         r = self.client.get("/integrations/add_pushover/?%s" % params)
         assert r.status_code == 400
+=======
+    # Test that pushover validates priority
+>>>>>>> [Chore #156839152]: implement continous integration:hc/front/tests/test_add_pushbover.py

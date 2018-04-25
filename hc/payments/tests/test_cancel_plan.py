@@ -5,7 +5,6 @@ from hc.test import BaseTestCase
 
 
 class CancelPlanTestCase(BaseTestCase):
-
     def setUp(self):
         super(CancelPlanTestCase, self).setUp()
         self.sub = Subscription(user=self.alice)

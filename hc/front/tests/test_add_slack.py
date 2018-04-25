@@ -7,7 +7,6 @@ from mock import patch
 
 
 class AddSlackTestCase(BaseTestCase):
-
     @override_settings(SLACK_CLIENT_ID=None)
     def test_webhook_instructions_work(self):
         self.client.login(username="alice@example.org", password="password")
@@ -23,8 +22,8 @@ class AddSlackTestCase(BaseTestCase):
     @override_settings(SLACK_CLIENT_ID="foo")
     def test_landing_page(self):
         r = self.client.get("/integrations/add_slack/")
-        self.assertContains(r, "Before adding Slack integration",
-                            status_code=200)
+        self.assertContains(
+            r, "Before adding Slack integration", status_code=200)
 
     @patch("hc.front.views.requests.post")
     def test_it_handles_oauth_response(self, mock_post):
@@ -54,10 +53,7 @@ class AddSlackTestCase(BaseTestCase):
 
     @patch("hc.front.views.requests.post")
     def test_it_handles_oauth_error(self, mock_post):
-        oauth_response = {
-            "ok": False,
-            "error": "something went wrong"
-        }
+        oauth_response = {"ok": False, "error": "something went wrong"}
 
         mock_post.return_value.text = json.dumps(oauth_response)
         mock_post.return_value.json.return_value = oauth_response

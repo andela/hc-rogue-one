@@ -4,7 +4,6 @@ from hc.api.models import Check, Ping
 
 
 class PingTestCase(TestCase):
-
     def setUp(self):
         super(PingTestCase, self).setUp()
         self.check = Check.objects.create()
@@ -46,28 +45,30 @@ class PingTestCase(TestCase):
 
     def test_it_reads_forwarded_ip(self):
         ip = "1.1.1.1"
-        r = self.client.get("/ping/%s/" % self.check.code,
-                            HTTP_X_FORWARDED_FOR=ip)
+        r = self.client.get(
+            "/ping/%s/" % self.check.code, HTTP_X_FORWARDED_FOR=ip)
         ping = Ping.objects.latest("id")
-        ### Assert the expected response status code and ping's remote address
+        # Assert the expected response status code and ping's remote address
 
         ip = "1.1.1.1, 2.2.2.2"
-        r = self.client.get("/ping/%s/" % self.check.code,
-                            HTTP_X_FORWARDED_FOR=ip, REMOTE_ADDR="3.3.3.3")
+        r = self.client.get(
+            "/ping/%s/" % self.check.code,
+            HTTP_X_FORWARDED_FOR=ip,
+            REMOTE_ADDR="3.3.3.3")
         ping = Ping.objects.latest("id")
         assert r.status_code == 200
         assert ping.remote_addr == "1.1.1.1"
 
     def test_it_reads_forwarded_protocol(self):
-        r = self.client.get("/ping/%s/" % self.check.code,
-                            HTTP_X_FORWARDED_PROTO="https")
+        r = self.client.get(
+            "/ping/%s/" % self.check.code, HTTP_X_FORWARDED_PROTO="https")
         ping = Ping.objects.latest("id")
-        ### Assert the expected response status code and ping's scheme
+        # Assert the expected response status code and ping's scheme
 
     def test_it_never_caches(self):
         r = self.client.get("/ping/%s/" % self.check.code)
         assert "no-cache" in r.get("Cache-Control")
 
-    ### Test that when a ping is made a check with a paused status changes status
-    ### Test that a post to a ping works
-    ### Test that the csrf_client head works
+    # Test that when a ping is made a check with a paused status changes status
+    # Test that a post to a ping works
+    # Test that the csrf_client head works
