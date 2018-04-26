@@ -10,9 +10,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import warnings
 
-HOST = "localhost"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+HOST = "localhost"
 SECRET_KEY = os.environ.get("HC_SECRET_KEY")
 DEBUG = True
 ALLOWED_HOSTS = []
@@ -46,9 +46,6 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'hc.accounts.middleware.TeamAccessMiddleware',
-    # Simplified static file serving.
-    # https://warehouse.python.org/project/whitenoise/
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -90,7 +87,6 @@ DATABASES = {
 
 # You can switch database engine to postgres or mysql using environment
 # variable 'DB'. Travis CI does this.
-
 if os.environ.get("DB") == "postgres":
     DATABASES = {
         'default': {
@@ -104,7 +100,6 @@ HC_USER = os.environ.get("HC_USER")
 HC_NAME = os.environ.get("HC_NAME")
 HC_HOST = os.environ.get("HC_HOST")
 HC_PASSWORD = os.environ.get("HC_PASSWORD")
-
 if os.environ.get("DB") == "heroku":
     DATABASES = {
         'default': {
@@ -156,7 +151,7 @@ USE_TZ = True
 SITE_ROOT = "http://localhost:8000"
 PING_ENDPOINT = SITE_ROOT + "/ping/"
 PING_EMAIL_DOMAIN = HOST
-STATIC_URL = '/static/' 
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static-collected')
 STATICFILES_FINDERS = (
@@ -181,11 +176,6 @@ PUSHOVER_EMERGENCY_EXPIRATION = 86400
 # Pushbullet integration -- override these in local_settings
 PUSHBULLET_CLIENT_ID = None
 PUSHBULLET_CLIENT_SECRET = None
-
-# Simplified static file serving.
-# https://warehouse.python.org/project/whitenoise/
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 if os.path.exists(os.path.join(BASE_DIR, "hc/local_settings.py")):
     from .local_settings import *
