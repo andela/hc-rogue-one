@@ -17,7 +17,6 @@ six==1.11.0
 urllib3==1.22
 django_compressor==2.1
 djmail==0.11.0
-futures==3.0.3
 premailer==2.9.6
 psycopg2-binary==2.7.4
 requests==2.9.1
