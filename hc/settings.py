@@ -15,8 +15,7 @@ import warnings
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-HOST = "localhost"
-SECRET_KEY = "---"
+SECRET_KEY = os.environ.get("HC_SECRET_KEY")
 DEBUG = True
 ALLOWED_HOSTS = []
 DEFAULT_FROM_EMAIL = 'healthchecks@example.org'
