@@ -23,7 +23,6 @@ class SendAlertsTestCase(BaseTestCase):
         result = Command().handle_many()
         self.assertTrue(result)
 
-
         handled_names = []
         for args, kwargs in mock.call_args_list:
             handled_names.append(args[0].name)
@@ -38,6 +37,7 @@ class SendAlertsTestCase(BaseTestCase):
         check.save()
 
         # Expect no exceptions--
-        self.assertTrue(Command().handle_one(check))
+        Command().handle_one(check)
 
-    ### Assert when Command's handle many that when handle_many should return True
+    
+        

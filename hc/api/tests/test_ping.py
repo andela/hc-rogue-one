@@ -84,14 +84,14 @@ class PingTestCase(TestCase):
         self.check.refresh_from_db()
         self.assertEqual(self.check.status, "up")
     ### Test that a post to a ping works
-    def test_post_works(self):
+    def test_post_ping_works(self):
         csrf_client = Client(enforce_csrf_checks=True)
         r = csrf_client.post("/ping/%s/" %self.check.code, "hello world",
                              content_type="text/plain")
         self.assertEqual(r.status_code, 200)
         ping = Ping.objects.latest("id")
         self.assertEqual(ping.method, "POST")
-        # self.assertEqual(ping.body, "hello world")
+      
 
     ### Test that the csrf_client head works
     def test_csrf_client_works(self):

@@ -26,5 +26,6 @@ class EnsureTriggersTestCase(TestCase):
         check.last_ping += timedelta(days=1)
         check.save()
         check.refresh_from_db()
-        self.assertLess(alert_after, check.alert_after)
         ### Assert that alert_after is lesser than the check's alert_after 
+        self.assertLess(alert_after, check.alert_after)
+       
