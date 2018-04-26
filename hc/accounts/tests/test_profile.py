@@ -12,7 +12,7 @@ class ProfileTestCase(BaseTestCase):
 
         form = {"set_password": "1"}
         r = self.client.post("/accounts/profile/", form)
-        assert r.status_code == 302
+        self.assertEqual(r.status_code, 302)
 
         # profile.token should be set now
         self.alice.profile.refresh_from_db()
@@ -44,7 +44,7 @@ class ProfileTestCase(BaseTestCase):
 
         form = {"invite_team_member": "1", "email": "frank@example.org"}
         r = self.client.post("/accounts/profile/", form)
-        assert r.status_code == 200
+        self.assertEqual(r.status_code, 200)
 
         member_emails = set()
         for member in self.alice.profile.member_set.all():
@@ -66,14 +66,15 @@ class ProfileTestCase(BaseTestCase):
 
         form = {"invite_team_member": "1", "email": "frank@example.org"}
         r = self.client.post("/accounts/profile/", form)
-        assert r.status_code == 403
+        self.assertEqual(r.status_code, 403)
+
 
     def test_it_removes_team_member(self):
         self.client.login(username="alice@example.org", password="password")
 
         form = {"remove_team_member": "1", "email": "bob@example.org"}
         r = self.client.post("/accounts/profile/", form)
-        assert r.status_code == 200
+        self.assertEqual(r.status_code, 200)
 
         self.assertEqual(Member.objects.count(), 0)
 
@@ -85,7 +86,7 @@ class ProfileTestCase(BaseTestCase):
 
         form = {"set_team_name": "1", "team_name": "Alpha Team"}
         r = self.client.post("/accounts/profile/", form)
-        assert r.status_code == 200
+        self.assertEqual(r.status_code, 200)
 
         self.alice.profile.refresh_from_db()
         self.assertEqual(self.alice.profile.team_name, "Alpha Team")
@@ -95,7 +96,7 @@ class ProfileTestCase(BaseTestCase):
 
         form = {"set_team_name": "1", "team_name": "Charlies Team"}
         r = self.client.post("/accounts/profile/", form)
-        assert r.status_code == 403
+        self.assertEqual(r.status_code, 403)
 
     def test_it_switches_to_own_team(self):
         self.client.login(username="bob@example.org", password="password")
