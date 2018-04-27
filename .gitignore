@@ -1,4 +1,7 @@
 __pycache__/
+.pytest_cache/
+hc/accounts/.pytest_cache/
+
 *.pyc
 .coverage
 hc.sqlite
@@ -7,3 +10,4 @@ static-collected
 
 .DS_Store
 static/.DS_Store
+.vscode

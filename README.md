@@ -1,5 +1,5 @@
 # healthchecks
-
+[![Build Status](https://travis-ci.org/andela/hc-rogue-one.svg?branch=ch-continous-integration-156839152)](https://travis-ci.org/andela/hc-rogue-one)
 ![Screenshot of Welcome page](/stuff/screenshots/welcome.png?raw=true "Welcome Page")
 
 ![Screenshot of My Checks page](/stuff/screenshots/my_checks.png?raw=true "My Checks Page")
