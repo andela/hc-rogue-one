@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import warnings
 
+HOST = "localhost"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 HOST = "localhost"
@@ -87,6 +88,7 @@ DATABASES = {
 
 # You can switch database engine to postgres or mysql using environment
 # variable 'DB'. Travis CI does this.
+
 if os.environ.get("DB") == "postgres":
     DATABASES = {
         'default': {
@@ -100,6 +102,22 @@ HC_USER = os.environ.get("HC_USER")
 HC_NAME = os.environ.get("HC_NAME")
 HC_HOST = os.environ.get("HC_HOST")
 HC_PASSWORD = os.environ.get("HC_PASSWORD")
+if os.environ.get("DB") == "heroku":
+    DATABASES = {
+        'default': {
+            'ENGINE':   'django.db.backends.postgresql',
+            'USER':     HC_USER,
+            'NAME':     HC_NAME,
+            'HOST':     HC_HOST,
+            'PASSWORD': HC_PASSWORD,
+            'TEST': {'CHARSET': 'UTF8'}
+        }
+    }
+HC_USER = os.environ.get("HC_USER")
+HC_NAME = os.environ.get("HC_NAME")
+HC_HOST = os.environ.get("HC_HOST")
+HC_PASSWORD = os.environ.get("HC_PASSWORD")
+
 if os.environ.get("DB") == "heroku":
     DATABASES = {
         'default': {
@@ -135,7 +153,7 @@ USE_TZ = True
 SITE_ROOT = "http://localhost:8000"
 PING_ENDPOINT = SITE_ROOT + "/ping/"
 PING_EMAIL_DOMAIN = HOST
-STATIC_URL = '/static/'
+STATIC_URL = '/static/' 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static-collected')
 STATICFILES_FINDERS = (
@@ -160,6 +178,7 @@ PUSHOVER_EMERGENCY_EXPIRATION = 86400
 # Pushbullet integration -- override these in local_settings
 PUSHBULLET_CLIENT_ID = None
 PUSHBULLET_CLIENT_SECRET = None
+
 
 if os.path.exists(os.path.join(BASE_DIR, "hc/local_settings.py")):
     from .local_settings import *

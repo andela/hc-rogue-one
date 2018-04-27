@@ -106,7 +106,7 @@ class CreateCheckTestCase(BaseTestCase):
 
     def test_it_rejects_large_timeout(self):
         
-        r = self.post({"api_key": "abc", "timeout": 5000000})
+        r = self.post({"api_key": "abc", "timeout": 40000000})
 
         self.assertEqual(r.status_code, 400)
 
