@@ -9,9 +9,7 @@ class OwnershipListFilter(admin.SimpleListFilter):
     parameter_name = 'ownership'
 
     def lookups(self, request, model_admin):
-        return (
-            ('assigned', "Assigned"),
-        )
+        return (('assigned', "Assigned"), )
 
     def queryset(self, request, queryset):
         if self.value() == 'assigned':
@@ -21,11 +19,8 @@ class OwnershipListFilter(admin.SimpleListFilter):
 
 @admin.register(Check)
 class ChecksAdmin(admin.ModelAdmin):
-
     class Media:
-        css = {
-            'all': ('css/admin/checks.css',)
-        }
+        css = {'all': ('css/admin/checks.css', )}
 
     search_fields = ["name", "user__email", "code"]
     list_display = ("id", "name_tags", "created", "code", "status", "email",
@@ -118,6 +113,7 @@ class LargeTablePaginator(Paginator):
                 # (i.e. is of type list).
                 self._count = len(self.object_list)
         return self._count
+
     count = property(_get_count)
 
 
@@ -140,9 +136,7 @@ class PingsAdmin(admin.ModelAdmin):
 @admin.register(Channel)
 class ChannelsAdmin(admin.ModelAdmin):
     class Media:
-        css = {
-            'all': ('css/admin/channels.css',)
-        }
+        css = {'all': ('css/admin/channels.css', )}
 
     search_fields = ["value", "user__email"]
     list_select_related = ("user", )

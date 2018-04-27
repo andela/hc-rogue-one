@@ -3,7 +3,6 @@ from hc.test import BaseTestCase
 
 
 class AddWebhookTestCase(BaseTestCase):
-
     def test_it_adds_two_webhook_urls_and_redirects(self):
         form = {"value_down": "http://foo.com", "value_up": "https://bar.com"}
 

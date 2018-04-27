@@ -14,7 +14,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Ping',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, auto_created=True, verbose_name='ID')),
+                ('id',
+                 models.AutoField(
+                     primary_key=True,
+                     serialize=False,
+                     auto_created=True,
+                     verbose_name='ID')),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('remote_addr', models.GenericIPAddressField()),
                 ('method', models.CharField(max_length=10)),

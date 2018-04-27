@@ -8,7 +8,6 @@ from mock import patch
 
 @override_settings(PUSHBULLET_CLIENT_ID="t1", PUSHBULLET_CLIENT_SECRET="s1")
 class AddPushbulletTestCase(BaseTestCase):
-
     def test_it_shows_instructions(self):
         self.client.login(username="alice@example.org", password="password")
         r = self.client.get("/integrations/add_pushbullet/")

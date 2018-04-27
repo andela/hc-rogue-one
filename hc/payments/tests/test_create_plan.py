@@ -6,7 +6,6 @@ from hc.test import BaseTestCase
 
 
 class CreatePlanTestCase(BaseTestCase):
-
     def _setup_mock(self, mock):
         """ Set up Braintree calls that the controller will use. """
 

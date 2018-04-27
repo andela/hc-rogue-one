@@ -7,7 +7,6 @@ from hc.test import BaseTestCase
 
 @override_settings(PUSHOVER_API_TOKEN="token", PUSHOVER_SUBSCRIPTION_URL="url")
 class AddChannelTestCase(BaseTestCase):
-
     def test_it_adds_email(self):
         url = "/integrations/add/"
         form = {"kind": "email", "value": "alice@example.org"}

@@ -15,6 +15,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='check',
             name='code',
-            field=models.UUIDField(default=uuid.uuid4, db_index=True, editable=False),
+            field=models.UUIDField(
+                default=uuid.uuid4, db_index=True, editable=False),
         ),
     ]

@@ -24,7 +24,8 @@ channel_urls = [
     url(r'^add_victorops/$', views.add_victorops, name="hc-add-victorops"),
     url(r'^([\w-]+)/checks/$', views.channel_checks, name="hc-channel-checks"),
     url(r'^([\w-]+)/remove/$', views.remove_channel, name="hc-remove-channel"),
-    url(r'^([\w-]+)/verify/([\w-]+)/$', views.verify_email,
+    url(r'^([\w-]+)/verify/([\w-]+)/$',
+        views.verify_email,
         name="hc-verify-email"),
 ]
 
@@ -34,7 +35,6 @@ urlpatterns = [
     url(r'^checks/add/$', views.add_check, name="hc-add-check"),
     url(r'^checks/([\w-]+)/', include(check_urls)),
     url(r'^integrations/', include(channel_urls)),
-
     url(r'^docs/$', views.docs, name="hc-docs"),
     url(r'^docs/api/$', views.docs_api, name="hc-docs-api"),
     url(r'^about/$', views.about, name="hc-about"),

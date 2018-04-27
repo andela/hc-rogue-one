@@ -183,8 +183,8 @@ def profile(request):
                 farewell_user.profile.current_team = None
                 farewell_user.profile.save()
 
-                Member.objects.filter(team=profile,
-                                      user=farewell_user).delete()
+                Member.objects.filter(
+                    team=profile, user=farewell_user).delete()
 
                 messages.info(request, "%s removed from team!" % email)
         elif "set_team_name" in request.POST:

@@ -5,7 +5,6 @@ from hc.test import BaseTestCase
 
 
 class ChannelsTestCase(BaseTestCase):
-
     def test_it_formats_complex_slack_value(self):
         ch = Channel(kind="slack", user=self.alice)
         ch.value = json.dumps({

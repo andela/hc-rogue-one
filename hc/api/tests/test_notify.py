@@ -9,7 +9,6 @@ from requests.exceptions import ConnectionError, Timeout
 
 
 class NotifyTestCase(BaseTestCase):
-
     def _setup_data(self, kind, value, status="down", email_verified=True):
         self.check = Check()
         self.check.status = status
@@ -30,8 +29,10 @@ class NotifyTestCase(BaseTestCase):
 
         self.channel.notify(self.check)
         mock_get.assert_called_with(
-            "get", u"http://example",
-            headers={"User-Agent": "healthchecks.io"}, timeout=5)
+            "get",
+            u"http://example",
+            headers={"User-Agent": "healthchecks.io"},
+            timeout=5)
 
     @patch("hc.api.transports.requests.request", side_effect=Timeout)
     def test_webhooks_handle_timeouts(self, mock_get):
@@ -89,7 +90,9 @@ class NotifyTestCase(BaseTestCase):
         self.channel.notify(self.check)
 
         mock_get.assert_called_with(
-            "get", "http://bar", headers={"User-Agent": "healthchecks.io"},
+            "get",
+            "http://bar",
+            headers={"User-Agent": "healthchecks.io"},
             timeout=5)
 
     def test_email(self):
@@ -222,4 +225,4 @@ class NotifyTestCase(BaseTestCase):
         json = kwargs["json"]
         self.assertEqual(json["message_type"], "CRITICAL")
 
-    ### Test that the web hooks handle connection errors and error 500s
+    # Test that the web hooks handle connection errors and error 500s

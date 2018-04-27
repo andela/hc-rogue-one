@@ -3,7 +3,6 @@ from hc.test import BaseTestCase
 
 
 class UpdateChannelTestCase(BaseTestCase):
-
     def setUp(self):
         super(UpdateChannelTestCase, self).setUp()
         self.check = Check(user=self.alice)

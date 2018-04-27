@@ -20,7 +20,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='check',
             name='created',
-            field=models.DateTimeField(auto_now_add=True, default=datetime.datetime(2015, 6, 16, 13, 19, 17, 218278, tzinfo=utc)),
+            field=models.DateTimeField(
+                auto_now_add=True,
+                default=datetime.datetime(
+                    2015, 6, 16, 13, 19, 17, 218278, tzinfo=utc)),
             preserve_default=False,
         ),
     ]

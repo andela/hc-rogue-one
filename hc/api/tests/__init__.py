@@ -3,7 +3,6 @@ from django.test.runner import DiscoverRunner
 
 
 class CustomRunner(DiscoverRunner):
-
     def __init__(self, *args, **kwargs):
         # For speed:
         settings.PASSWORD_HASHERS = \

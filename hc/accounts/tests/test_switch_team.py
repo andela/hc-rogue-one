@@ -3,7 +3,6 @@ from hc.api.models import Check
 
 
 class SwitchTeamTestCase(BaseTestCase):
-
     def test_it_switches(self):
         c = Check(user=self.alice, name="This belongs to Alice")
         c.save()

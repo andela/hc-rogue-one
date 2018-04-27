@@ -3,7 +3,6 @@ from hc.test import BaseTestCase
 
 
 class AddCheckTestCase(BaseTestCase):
-
     def test_it_works(self):
         url = "/checks/add/"
         self.client.login(username="alice@example.org", password="password")
