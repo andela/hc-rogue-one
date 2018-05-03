@@ -49,6 +49,7 @@ def my_checks(request):
 
     ctx = {
         "page": "checks",
+        "page_title": 'My Checks',
         "checks": checks,
         "now": timezone.now(),
         "tags": counter.most_common(),
@@ -59,6 +60,29 @@ def my_checks(request):
 
     return render(request, "front/my_checks.html", ctx)
 
+@login_required
+def my_failed_checks(request):
+
+    """ Views function for retieving and displaying all failed checks """
+
+    checks = list(Check.objects.filter(user=request.team.user).order_by("created"))
+    
+    failed_checks = []
+    for check in checks:
+        if check.get_status() == "down":
+            failed_checks.append(check)
+
+
+    ctx = {
+        "page": "failed_checks",
+        "page_title": 'My Failed Checks',
+        "checks": failed_checks,
+        "now": timezone.now(),
+        "ping_endpoint": settings.PING_ENDPOINT
+    }
+
+    return render(request, "front/my_checks.html", ctx)
+   
 
 def _welcome_check(request):
     check = None

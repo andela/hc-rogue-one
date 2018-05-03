@@ -9,11 +9,18 @@
     <div class="col-sm-12">
         <h1>
         {% if request.team == request.user.profile %}
-            My Checks
+        {{page_title}}
         {% else %}
             {{ request.team.team_name }}
         {% endif %}
         </h1>
+        <h4> 
+            <ul style = list-style-type:none;>
+            <li>
+            <a href="{% url 'hc-failed-checks' %}">Failed Checks</a>
+            </li>
+            </ul>
+        </h4>
     </div>
     {% if tags %}
     <div id="my-checks-tags" class="col-sm-12">
