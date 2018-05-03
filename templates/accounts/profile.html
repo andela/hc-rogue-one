@@ -24,13 +24,38 @@
             <div class="panel-body settings-block">
                 <form method="post">
                     {% csrf_token %}
-                    <h2>Monthly Reports</h2>
+                    <h2>Periodic Reports</h2>
                     <label>
                         <input
                             name="reports_allowed"
                             type="checkbox"
                             {% if profile.reports_allowed %} checked {% endif %}>
-                        Each month send me a summary of my checks
+                        Send me reports of my checks
+                    </label>
+                    <h4>Select preferred report interval:</h4>                   
+                    <label >
+                        <input
+                            name="reports"
+                            type="radio"
+                            value=30
+                            {% if profile.reports_allowed %} checked {% endif %}>
+                        Monthly 
+                    </label>
+                    <label>
+                        <input
+                            name="reports"
+                            type="radio"
+                            value=7
+                            {% if profile.reports_allowed %} checked {% endif %}>
+                        Weekly
+                    </label>
+                    <label>
+                        <input
+                            name="reports"
+                            type="radio"
+                            value=1
+                            {% if profile.reports_allowed %} checked {% endif %}>
+                        Daily 
                     </label>
                     <button
                         name="update_reports_allowed"
@@ -41,21 +66,6 @@
         </div>
     </div>
 
-    <div class="col-sm-6">
-        <div class="panel panel-default">
-            <div class="panel-body settings-block">
-                <form method="post">
-                    {% csrf_token %}
-                    <h2>Set Password</h2>
-                    Attach a password to your healthchecks.io account
-                    <button
-                        type="submit"
-                        name="set_password"
-                        class="btn btn-default pull-right">Set Password</button>
-                </form>
-            </div>
-        </div>
-    </div>
 
     <div class="col-sm-6">
         <div class="panel panel-default">
@@ -112,6 +122,23 @@
                     data-toggle="modal"
                     data-target="#invite-team-member-modal">Invite a Team Member</a>
                 {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+        <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-body settings-block">
+                <form method="post">
+                    {% csrf_token %}
+                    <h2>Set Password</h2>
+                    Attach a password to your healthchecks.io account
+                    <button
+                        type="submit"
+                        name="set_password"
+                        class="btn btn-default pull-right">Set Password</button>
+                </form>
             </div>
         </div>
     </div>
