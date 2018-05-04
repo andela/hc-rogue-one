@@ -33,6 +33,9 @@
 .icon-up:before {
   content: "\e86c";
 }
+.icon-often:before{
+  content: "\e86c";
+}
 .icon-close:before {
   content: "\e5cd";
 }

@@ -22,7 +22,22 @@ def ping(request, code):
         return HttpResponseBadRequest()
 
     check.n_pings = F("n_pings") + 1
+
+    # if status == up and ping is received before reverse grace period, alert user
+    if check.status == "up":
+        # calculate reverse grace
+        reverse_grace = 0.2 * check.timeout
+        if timezone.now() < check.last_ping + check.timeout - reverse_grace:
+            check.status = "often"
+            check.save()
+            check.send_alert()
+    # if status == often and ping comes in during expeccted time zone, declare as back up 
+    elif check.status == "often":
+        if timezone.now() > check.last_ping + 0.8*check.timeout:
+            check.status = "up"
+
     check.last_ping = timezone.now()
+
     if check.status in ("new", "paused"):
         check.status = "up"
 

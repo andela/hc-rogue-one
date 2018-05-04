@@ -35,6 +35,7 @@ def my_checks(request):
     counter = Counter()
     down_tags, grace_tags = set(), set()
     for check in checks:
+        print(check.get_status())
         status = check.get_status()
         for tag in check.tags_list():
             if tag == "":

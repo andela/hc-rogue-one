@@ -1,2 +1,7 @@
-{{ check.name_then_code }} is {{ check.status }}
+{{ check.name_then_code }} is 
+{% if check.status == 'often' %}
+    running too {{ check.status|upper }}.
+{% else %}
+{{ check.status }}
+{% endif %}
 
