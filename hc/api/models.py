@@ -17,7 +17,8 @@ STATUSES = (
     ("up", "Up"),
     ("down", "Down"),
     ("new", "New"),
-    ("paused", "Paused")
+    ("paused", "Paused"),
+    ("often", "Often")
 )
 DEFAULT_TIMEOUT = td(days=1)
 DEFAULT_GRACE = td(hours=1)
@@ -39,7 +40,7 @@ class Check(models.Model):
 
     class Meta:
         # sendalerts command will query using these
-        index_together = ["status", "user", "alert_after"]
+        index_together = ["status", "user", "alert_after", "grace"]
 
     name = models.CharField(max_length=100, blank=True)
     tags = models.CharField(max_length=500, blank=True)
@@ -69,7 +70,7 @@ class Check(models.Model):
         return "%s@%s" % (self.code, settings.PING_EMAIL_DOMAIN)
 
     def send_alert(self):
-        if self.status not in ("up", "down"):
+        if self.status not in ("up", "often", "down"):
             raise NotImplementedError("Unexpected status: %s" % self.status)
 
         errors = []
@@ -87,6 +88,9 @@ class Check(models.Model):
         now = timezone.now()
 
         if self.last_ping + self.timeout + self.grace > now:
+            print(self.status)
+            if self.status == "often":
+                return "often"
             return "up"
 
         return "down"

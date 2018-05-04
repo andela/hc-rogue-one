@@ -30,6 +30,7 @@
     .up { background: #5cb85c; }
     .grace { background: #f0ad4e; }
     .down { background: #d9534f; }
+    .often { background: #d9534f; }
 
 
     .unnamed {
@@ -65,6 +66,8 @@
                 <span class="badge up">UP</span>
             {% elif check.get_status == "down" %}
                 <span class="badge down">DOWN</span>
+            {% elif check.get_status == "often" %}
+                <span class="badge often">OFTEN</span>
             {% endif %}
         </td>
         <td>
