@@ -169,7 +169,8 @@ def docs_api(request):
         "SITE_ROOT": settings.SITE_ROOT,
         "PING_ENDPOINT": settings.PING_ENDPOINT,
         "default_timeout": int(DEFAULT_TIMEOUT.total_seconds()),
-        "default_grace": int(DEFAULT_GRACE.total_seconds())
+        "default_grace": int(DEFAULT_GRACE.total_seconds()),
+        "default_nag": int(DEFAULT_NAG.total_seconds())
     }
 
     return render(request, "front/docs_api.html", ctx)
@@ -295,6 +296,11 @@ def update_timeout(request, code):
     if form.is_valid():
         check.timeout = td(seconds=form.cleaned_data["timeout"])
         check.grace = td(seconds=form.cleaned_data["grace"])
+        check.nag = td(seconds=form.cleaned_data["nag"])
+        if 'nag_state' in request.POST:
+            check.nag_mode = True
+        else:
+            check.nag_mode = False
         check.save()
 
     return redirect("hc-checks")

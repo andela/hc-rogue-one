@@ -29,6 +29,8 @@
                 <button class="btn btn-danger btn-xs" data-toggle="button">{{ tag }}</button>
             {% elif tag in grace_tags %}
                 <button class="btn btn-warning btn-xs" data-toggle="button">{{ tag }}</button>
+            {% elif tag in nag_tags %}
+                <button class="btn btn-danger btn-xs" data-toggle="button">{{ tag }}</button>
             {% else %}
                 <button class="btn btn-default btn-xs" data-toggle="button">{{ tag }}</button>
             {% endif %}
@@ -123,6 +125,7 @@
             {% csrf_token %}
             <input type="hidden" name="timeout" id="update-timeout-timeout" />
             <input type="hidden" name="grace" id="update-timeout-grace" />
+            <input type="hidden" name="nag" id="update-timeout-nag" />
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="update-timeout-info text-center">
@@ -156,6 +159,30 @@
 
                     <div id="grace-slider"></div>
 
+                    <div class="update-timeout-info text-center">
+                        <span
+                            class="update-timeout-label"
+                            data-toggle="tooltip"
+                            title="When a check is unresolved and a user does not address the issue they will be Reminded
+                            to resolve the issue until they do for this specified interval">
+                            Reminder
+                        </span>
+                        <span
+                            id="nag-slider-value"
+                            class="update-timeout-value">
+                            1 day
+                        </span>
+                    </div>
+
+                    <div id="nag-slider"></div>
+                    <p>
+                        <span>Nag Mode</span>
+                            <span id="nag-text"></span>
+                        <div id="my-box">    
+                            <div id="inner-box"><label class="checkbox-inline"><input id="update-timeout-nag-mode" name="nag_state" type="checkbox" ></label></div> 
+                            <div id="inner-box-2"><span id="nag-text-help"></span></div>
+                        </div>
+                    </p>
                     <div class="update-timeout-terms">
                         <p>
                             <span>Period</span>
@@ -164,6 +191,11 @@
                         <p>
                             <span>Grace Time</span>
                             When a check is late, how much time to wait until alert is sent.
+                        </p>
+                        <p>
+                            <span>Reminder Interval</span>
+                            When a check is unresolved and a user does not address the issue they will be Reminded
+                            to resolve the issue until they do for this specified interval .
                         </p>
                     </div>
 

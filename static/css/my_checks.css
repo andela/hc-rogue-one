@@ -39,11 +39,34 @@
   background: #f0ad4e;
 }
 
-#period-slider .noUi-value, #grace-slider .noUi-value {
+#nag-slider {
+    margin: 20px 50px 140px 50px;
+}
+
+#nag-slider.noUi-connect {
+  background: #ee1010;
+}
+
+#period-slider .noUi-value, #grace-slider .noUi-value, #nag-slider .noUi-value {
     width: 60px;
     margin-left: -30px;
 }
-
+#my-box {
+    position: relative;
+}
+#inner-box {
+    position: absolute;
+    top: -40px;
+    left: 110px;
+}
+#inner-box-2 {
+    position: absolute;
+    top: -30px;
+    left: 130px;
+}
+#nag-text-help {
+    font-weight: bold;
+}
 .update-timeout-terms {
     color: #999;
 }
