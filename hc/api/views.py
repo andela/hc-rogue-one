@@ -26,14 +26,14 @@ def ping(request, code):
     # if status == up and ping is received before reverse grace period, alert user
     if check.status == "up":
         # calculate reverse grace
-        reverse_grace = 0.2 * check.timeout
+        reverse_grace = (20 * check.timeout)/100
         if timezone.now() < check.last_ping + check.timeout - reverse_grace:
             check.status = "often"
             check.save()
             check.send_alert()
     # if status == often and ping comes in during expeccted time zone, declare as back up 
     elif check.status == "often":
-        if timezone.now() > check.last_ping + 0.8*check.timeout:
+        if timezone.now() > check.last_ping + (80*check.timeout)/100:
             check.status = "up"
 
     check.last_ping = timezone.now()
