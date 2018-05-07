@@ -1,7 +1,12 @@
 Hello,
 
 This is a notification sent by healthchecks.io.
-The check "{{ check.name_then_code }}" has gone {{ check.status }}.
+The check "{{ check.name_then_code }}" 
+{% if check.status == 'often' %}
+    is running too <strong>{{ check.status|upper }}</strong>.
+{% else %}
+has gone {{ check.status }}.
+{%endif%}
 
 Here is a summary of all your checks:
 

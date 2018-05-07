@@ -6,7 +6,11 @@
     This is a notification sent by <a href="https://healthchecks.io">healthchecks.io</a>.
     <br />
     The check <strong>{{ check.name_then_code }}</strong>
+    {% if check.status == 'often' %}
+    is running too <strong>{{ check.status|upper }}</strong>.
+    {% else %}
     has gone <strong>{{ check.status|upper }}</strong>.
+    {% endif %}
 </p>
 
 <p>Here is a summary of all your checks:</p>

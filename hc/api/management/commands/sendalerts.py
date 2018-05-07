@@ -19,10 +19,13 @@ class Command(BaseCommand):
         query = Check.objects.filter(user__isnull=False).select_related("user")
 
         now = timezone.now()
-        going_down = query.filter(alert_after__lt=now, status="up")
+        # up and often checks can both go down
+        going_down = query.filter(alert_after__lt=now, status="up") | query.filter(alert_after__lt=now, status="often")
         going_up = query.filter(alert_after__gt=now, status="down")
+        # running_often = query.filter(alert_after__gt=now, status="often")
+
         # Don't combine this in one query so Postgres can query using index:
-        checks = list(going_down.iterator()) + list(going_up.iterator())
+        checks=list(going_down.iterator())+list(going_up.iterator())
         if not checks:
             return False
 
@@ -44,7 +47,6 @@ class Command(BaseCommand):
         # it won't process this check again.
         check.status = check.get_status()
         check.save()
-
         tmpl = "\nSending alert, status=%s, code=%s\n"
         self.stdout.write(tmpl % (check.status, check.code))
         errors = check.send_alert()
