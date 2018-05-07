@@ -58,3 +58,17 @@ class MyChecksTestCase(BaseTestCase):
 
         # Mobile
         self.assertContains(r, "label-warning")
+
+    def test_it_shows_red_often_check(self):
+        self.check.last_ping = timezone.now()
+        self.check.status = "often"
+        self.check.save()
+
+        self.client.login(username="alice@example.org", password="password")
+        r = self.client.get("/checks/")
+
+        # Desktop
+        self.assertContains(r, "icon-often")
+
+        # Mobile
+        self.assertContains(r, "label-danger")
