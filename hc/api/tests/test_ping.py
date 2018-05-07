@@ -18,6 +18,15 @@ class PingTestCase(TestCase):
 
         ping = Ping.objects.latest("id")
         assert ping.scheme == "http"
+    
+    def test_ping_too_often(self):
+        r = self.client.get("/ping/%s/" % self.check.code)
+
+        self.check.refresh_from_db()
+
+        r = self.client.get("/ping/%s/" % self.check.code)
+        self.check.refresh_from_db()
+        assert self.check.status == "often"
 
     def test_it_handles_bad_uuid(self):
         r = self.client.get("/ping/not-uuid/")
