@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Blog posts{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Blog </h3>
+        {% if blog %}
+           <h3><a>{{ blog.title}}</a></h3>
+            {{blog.body | safe }} 
+    </br>
+            <a href="#">Written by: {{ blog.author }}. Created on {{blog.created}}</a> 
+        {% endif %}
+    </br>
+        <a class="btn btn-success" href="/blogs/comment/" role="button">Add Comment</a>
+
+    </div>
+    </div>
+</div>
+{% endblock %}

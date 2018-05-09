@@ -1,6 +1,8 @@
 __pycache__/
 .pytest_cache/
 hc/accounts/.pytest_cache/
+hc/front/migrations/
+hc/api/migrations/
 
 *.pyc
 .coverage

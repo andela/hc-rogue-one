@@ -3,6 +3,7 @@ from datetime import timedelta as td
 from itertools import tee
 
 import requests
+from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -15,8 +16,9 @@ from django.utils.crypto import get_random_string
 from django.utils.six.moves.urllib.parse import urlencode
 from hc.api.decorators import uuid_or_400
 from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping
+from hc.front.models import Category, Blog, Comment
 from hc.front.forms import (AddChannelForm, AddWebhookForm, NameTagsForm,
-                            TimeoutForm)
+                            TimeoutForm, AddBlogForm, AddCategoryForm, AddCommentForm)
 
 
 # from itertools recipes:
@@ -143,6 +145,76 @@ def docs_api(request):
 
 def about(request):
     return render(request, "front/about.html", {"page": "about"})
+
+@login_required
+def blog(request):
+    """ list all blogs """
+    blogs_list = Blog.objects.all()
+    category_list = Category.objects.all()
+
+    return render(request, "front/blogs.html", {"blogs_list":blogs_list, "category_list":category_list})
+
+@login_required
+def view_blog_post(request, slug):
+    """ return full blog """
+    blog = Blog.objects.get(slug=slug)
+
+    return render(request, "front/blog_detail.html", {"blog":blog})
+
+@login_required
+def add_category(request):
+    """ adding new category"""
+
+    if request.method == "POST":
+        form = AddCategoryForm(request.POST)
+        if form.is_valid():
+            category = form.cleaned_data['category']
+            post = Category(title=category)
+            post.save()
+
+            return HttpResponseRedirect('/blogs/')
+    else:
+        form = AddCategoryForm()
+
+    return render(request, "front/add_category.html", {'form':form})
+
+@login_required
+def add_blog(request):
+    """ adding a blog """
+    current_user = request.user
+    if request.method == "POST":
+        form = AddBlogForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            category = form.cleaned_data['category']
+            body = form.cleaned_data['body']
+            author = current_user
+            post = Blog(title=title, category=category, body=body, author=author)
+            post.save()
+
+            return HttpResponseRedirect('/blogs/')
+    else:
+        form = AddBlogForm()
+
+    return render(request, "front/add_blog.html", {'form':form})
+
+@login_required
+def add_comment(request, slug):
+    blog = get_object_or_404(Blog, slug=slug)
+    current_user = request.user
+    if request.method == "POST":
+        form = AddCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.cleaned_data['comment']
+            post = Comment(body=comment, blog=blog, name=current_user )
+            post.save()
+
+            return HttpResponseRedirect('/blogs/')
+    else:
+        form = AddCommentForm()
+
+    return render(request, "front/add_comment.html", {'form':form})
+
 
 
 @login_required
