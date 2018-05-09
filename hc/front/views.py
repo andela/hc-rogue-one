@@ -650,3 +650,17 @@ def privacy(request):
 
 def terms(request):
     return render(request, "front/terms.html", {})
+
+
+# frequently asked questions
+def faq(request):
+    check = _welcome_check(request)
+
+    ctx = {
+        "page": "faq",
+        "check": check,
+        "ping_url": check.url(),
+        "enable_pushover": settings.PUSHOVER_API_TOKEN is not None
+    }
+
+    return render(request, "front/faq.html", ctx)

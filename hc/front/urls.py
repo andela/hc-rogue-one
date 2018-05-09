@@ -49,5 +49,6 @@ urlpatterns = [
 
     url(r'^privacy/$', views.privacy, name="hc-privacy"),
     url(r'^terms/$', views.terms, name="hc-terms"),
+    url(r'^faq/$', views.faq, name="hc-faq"),    
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
