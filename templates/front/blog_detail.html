@@ -6,16 +6,35 @@
 {% block content %}
 <div class="row">
     <div class="col-sm-12">
-        <h3>Blog </h3>
         {% if blog %}
-           <h3><a>{{ blog.title}}</a></h3>
+           <h3 class="text-capitalize text-info">{{ blog.title}}</h3>
             {{blog.body | safe }} 
     </br>
-            <a href="#">Written by: {{ blog.author }}. Created on {{blog.created}}</a> 
-        {% endif %}
-    </br>
-        <a class="btn btn-success" href="/blogs/comment/" role="button">Add Comment</a>
+            <p class="text-capitalize text-info">Written by: {{ blog.author }}. On {{blog.created}}</p> 
+            {% if comments %}
+            <h4> Comments </h4>
+                {% for comment in comments%}
+                    <div class="row">
 
+                       <div class="col-xs-2 text-capitalize">
+                            <img style="width:60px" class="img img-responsive " src="{% static 'img/user.png' %}" alt="">
+                            <b class="text text-info">By {{ comment.name }}</b>
+                        </div>
+                        <div class="col-xs-10">
+                                {{ comment | safe }}</br>
+                                <p class="text-capitalize text-info">On: {{ comment.created}}</p> 
+                        </div>
+                        <div class="clearfix"></div>
+                        <hr/>
+                    </div> 
+                {% endfor %}
+
+            {% endif %}
+        </br>
+        <a class="btn btn-success" href="/blogs/comment/{{blog.id}}" role="button">Add Comment</a>
+
+        {% endif %}
+    
     </div>
     </div>
 </div>

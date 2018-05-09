@@ -146,7 +146,6 @@ def docs_api(request):
 def about(request):
     return render(request, "front/about.html", {"page": "about"})
 
-@login_required
 def blog(request):
     """ list all blogs """
     blogs_list = Blog.objects.all()
@@ -154,11 +153,13 @@ def blog(request):
 
     return render(request, "front/blogs.html", {"blogs_list":blogs_list, "category_list":category_list})
 
-@login_required
 def view_blog_post(request, slug):
     """ return full blog """
     blog = Blog.objects.get(slug=slug)
-
+    comments = Comment.objects.filter(blog=blog)
+    if comments:
+        return render(request, "front/blog_detail.html", {"blog":blog, "comments":comments})
+        
     return render(request, "front/blog_detail.html", {"blog":blog})
 
 @login_required
@@ -199,14 +200,15 @@ def add_blog(request):
     return render(request, "front/add_blog.html", {'form':form})
 
 @login_required
-def add_comment(request, slug):
-    blog = get_object_or_404(Blog, slug=slug)
+def add_comment(request, blogid):
+    blog = get_object_or_404(Blog, pk=blogid)
+    #print(blog.id)
     current_user = request.user
     if request.method == "POST":
         form = AddCommentForm(request.POST)
         if form.is_valid():
             comment = form.cleaned_data['comment']
-            post = Comment(body=comment, blog=blog, name=current_user )
+            post = Comment(body=comment, blog=blog, name=current_user)
             post.save()
 
             return HttpResponseRedirect('/blogs/')

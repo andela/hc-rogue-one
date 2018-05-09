@@ -10,10 +10,10 @@
         {% if blogs_list %}
         <ul class="list-unstyled">
             {% for blog in blogs_list %}
-           <h3> <li><a href="{{ blog.get_absolute_url}}">{{ blog.title}}</a></li></h3>
+           <h3 class="text-capitalize text-info"> <li><a href="{{ blog.get_absolute_url}}">{{ blog.title}}</a></li></h3>
             {{blog.body | truncatechars:250 |safe }}
         </br>
-            <a href="#">Written by: {{ blog.author }}. Created on {{blog.created}}</a>
+        <p class="text-capitalize text-info">Written by: {{ blog.author }}. On {{blog.created}}</p> 
             {% endfor %}
         </ul>
         {% endif %}

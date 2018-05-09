@@ -44,7 +44,7 @@ urlpatterns = [
     url(r'^blogs/(?P<slug>[-\w.]+)$', views.view_blog_post, name="view_blog_post"),
     url(r'^blogs/add/$', views.add_blog, name="hc-add-blog"),
     url(r'^blogs/category/$', views.add_category, name="hc-add-category"),
-    url(r'^blogs/comment/$', views.add_comment, name="hc-add-comment"),
+    url(r'^blogs/comment/(?P<blogid>\d+)$', views.add_comment, name="hc-add-comment"),
 
 
     url(r'^privacy/$', views.privacy, name="hc-privacy"),
