@@ -13,9 +13,13 @@ django-heroku==0.3.1
 django-js-asset==1.1.0
 django-ses-backend==0.1.1
 <<<<<<< HEAD
+<<<<<<< HEAD
 django-widget-tweaks==1.4.2
 =======
 >>>>>>> ft(live-chat): Integrate live chat system
+=======
+django-widget-tweaks==1.4.2
+>>>>>>> ft(frequently-asked-questions): Add frequently asked questions
 djmail==0.11.0
 futures==3.1.1
 idna==2.6

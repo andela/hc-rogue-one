@@ -18,8 +18,10 @@ from hc.api.decorators import uuid_or_400
 from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping
 from hc.front.models import Category, Blog, Comment
 from hc.front.forms import (AddChannelForm, AddWebhookForm, NameTagsForm,
-                            TimeoutForm, AddBlogForm, AddCategoryForm, AddCommentForm)
+                            TimeoutForm, AddBlogForm, AddCategoryForm, AddCommentForm,
+                            FaqForm)
 
+from hc.front.models import FrequentlyAskedQuestion
 
 # from itertools recipes:
 def pairwise(iterable):
@@ -654,13 +656,20 @@ def terms(request):
 
 # frequently asked questions
 def faq(request):
-    check = _welcome_check(request)
-
-    ctx = {
-        "page": "faq",
-        "check": check,
-        "ping_url": check.url(),
-        "enable_pushover": settings.PUSHOVER_API_TOKEN is not None
-    }
-
-    return render(request, "front/faq.html", ctx)
+    frequently_asked_questions = FrequentlyAskedQuestion.objects.filter(status='s')
+    message = None
+    if request.method != "POST":
+        form = FaqForm()
+    form = FaqForm(request.POST)
+    if form['email'].value() == '' or form['question'].value() == '':
+        message = 'Question not sent due to invalid data'
+    if form.is_valid():
+        form.save()
+        message = 'Thank you, we will get back to you' 
+    
+    return render(request, "front/faq.html", {
+        "page":"faq",
+        "form":form, 
+        "message":message,
+        "frequently_asked_questions":frequently_asked_questions
+        })
