@@ -13,6 +13,7 @@ addons:
   postgresql: "9.4"
 
 before_script:
+ - psql -c "CREATE DATABASE hc;" -U postgres
  - python manage.py makemigrations
  - python manage.py migrate
  
