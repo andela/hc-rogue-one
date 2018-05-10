@@ -19,15 +19,11 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-<<<<<<< HEAD
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-=======
->>>>>>> ft(frequently-asked-questions): Add frequently asked questions
     ]
 
     operations = [
         migrations.CreateModel(
-<<<<<<< HEAD
             name='Blog',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -63,7 +59,6 @@ class Migration(migrations.Migration):
             name='category',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='front.Category'),
         ),
-=======
             name='FrequentlyAskedQuestion',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -73,5 +68,4 @@ class Migration(migrations.Migration):
                 ('status', models.CharField(choices=[('h', 'hide'), ('s', 'show')], default='h', max_length=1)),
             ],
         ),
->>>>>>> ft(frequently-asked-questions): Add frequently asked questions
     ]
