@@ -144,6 +144,9 @@ def docs_api(request):
 def about(request):
     return render(request, "front/about.html", {"page": "about"})
 
+def schedule_task(request):
+    return render(request, "front/scheduled_task.html", {"page": "task"})
+
 
 @login_required
 def add_check(request):
