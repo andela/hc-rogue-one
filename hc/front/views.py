@@ -17,7 +17,7 @@ from django.utils.crypto import get_random_string
 from django.utils.six.moves.urllib.parse import urlencode
 from hc.api.decorators import uuid_or_400
 from hc.front.models import Category, Blog, Comment
-from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping, AssignedChecks
+from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping, PO_PRIORITIES, AssignedChecks
 from hc.front.forms import (AddChannelForm, AddWebhookForm, NameTagsForm,
                             TimeoutForm, AddBlogForm, AddCategoryForm, AddCommentForm,
                             FaqForm)
@@ -35,15 +35,21 @@ def pairwise(iterable):
 @login_required
 def my_checks(request):
     if request.user.id == request.team.user.id:
-        check_rows = Check.objects.filter(user=request.team.user).order_by("created")
+        check_rows = Check.objects.filter(user=request.team.user)
     else:
         check_rows = []
-        assigned_checkrows = AssignedChecks.objects.filter(team=request.team.user.profile, user=request.user).order_by("created")
+        assigned_checkrows = AssignedChecks.objects.filter(team=request.team.user.profile, user=request.user)
         for assigned_checkrow in assigned_checkrows:
             check_rows.append(assigned_checkrow.checks)
 
-    checks = list(check_rows)
+    recieved_checks = list(check_rows)
+    checks = []
 
+    for x in range(-2, 3):
+        for check in recieved_checks:
+            if check.priority == PO_PRIORITIES[x]:
+                checks.append(check)
+    checks.reverse()
     counter = Counter()
     down_tags, grace_tags = set(), set()
     for check in checks:
@@ -295,6 +301,8 @@ def update_timeout(request, code):
     if form.is_valid():
         check.timeout = td(seconds=form.cleaned_data["timeout"])
         check.grace = td(seconds=form.cleaned_data["grace"])
+        priority_id = int(form.cleaned_data["priority"])
+        check.priority = PO_PRIORITIES[priority_id]
         check.save()
 
     return redirect("hc-checks")

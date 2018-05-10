@@ -13,7 +13,6 @@ import warnings
 HOST = "localhost"
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-HOST = "localhost"
 SECRET_KEY = os.environ.get("HC_SECRET_KEY")
 DEBUG = True
 ALLOWED_HOSTS = []
@@ -137,7 +136,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-SITE_ROOT = "http://localhost:8000"
+SITE_ROOT = os.environ.get("HC_APP_HOST") or "http://localhost:8000"
 PING_ENDPOINT = SITE_ROOT + "/ping/"
 PING_EMAIL_DOMAIN = HOST
 STATIC_URL = '/static/'
