@@ -15,16 +15,18 @@
                         </h1>
                         <p class="subtitle hp-subtitle has-text-left">Health Checks helps you to easily monitor all your cron jobs in a beautiful dashboard. It alerts
                             you when your cron job doesn't run on time or it fails so you can sleep tight.</p>
-                            <div class="clearfix">
-                                 <div class="form-button">
+                        <div class="clearfix">
+                            <div class="form-button">
                                 <button href="{% url 'hc-login' %}" type="submit" class="btn btn-lg btn-primary pull-left">
                                     Get Started For Free
                                 </button>
-                                </div>
                             </div>
-                            <div class="info">
-                            <strong><span class="help">It takes less than a minute to setup a monitor </span></strong>
-                            </div>
+                        </div>
+                        <div class="info">
+                            <strong>
+                                <span class="help">It takes less than a minute to setup a monitor </span>
+                            </strong>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -36,8 +38,8 @@
     <div class="col-sm-12">
         <h1 id="pitch">Cron Monitoring. Get Notified When Your Cron Jobs Fail.</h1>
         <div id="pitch-small">
-                <span class="element"></span>
-            </div>
+            <span class="element"></span>
+        </div>
     </div>
 </div>
 
@@ -228,8 +230,8 @@
 
     <div class="row tour-section">
         <div class="col-sm-8">
-            <img class="img-responsive" src="{% static 'img/interfece.png' %}" srcset="{% static 'img/interface.png'%} 1x, {% static 'img/interface@2x.png'%} 2x"
-            alt="GUI for creation of checks" />
+            <img class="img-responsive" src="{% static 'img/task.png' %}" srcset="{% static 'img/task.png'%} 1x, {% static 'img/task@2x.png'%} 2x"
+                alt="GUI for creation of checks" />
         </div>
         <div class="col-sm-4">
             <p>
@@ -243,85 +245,86 @@
         </div>
     </div>
 
-        <div class="index-bleed">
-            <div class="container">
+    <div class="index-bleed">
+        <div class="container">
 
-                <div class="row">
-                    <h2><b>
+            <div class="row">
+                <h2>
+                    <b>
                         <p class="subtitle">
                             When you create a new monitor you will get a unique ping URL, like the one below.
                         </p>
-                    </b></h2>
-                    <div class="col-sm-6 col-sm-push-6">
-                        <p id="pitch-text">Make a HTTP GET request to this address from your cron job, daemon, script or long running task.
-                            <strong>When this address is not requested for a set time period, you will get alerted.</strong> Below
-                            are snippets that are ready to be copy/pasted into your own scripts.</p>
-                    </div>
-                    <div class="col-sm-6 col-sm-pull-6">
-                        <h2 id="pitch-subtitle">Here's an unique ping address for you:</h2>
-                        <div id="pitch-url">
-                            <input id="pitch-url-input" class="form-control" type="text" value="{{ ping_url }}" readonly />
-                        </div>
+                    </b>
+                </h2>
+                <div class="col-sm-6 col-sm-push-6">
+                    <p id="pitch-text">Make a HTTP GET request to this address from your cron job, daemon, script or long running task.
+                        <strong>When this address is not requested for a set time period, you will get alerted.</strong> Below are
+                        snippets that are ready to be copy/pasted into your own scripts.</p>
+                </div>
+                <div class="col-sm-6 col-sm-pull-6">
+                    <h2 id="pitch-subtitle">Here's an unique ping address for you:</h2>
+                    <div id="pitch-url">
+                        <input id="pitch-url-input" class="form-control" type="text" value="{{ ping_url }}" readonly />
                     </div>
                 </div>
+            </div>
 
 
-                <div class="row">
-                    <div class="col-sm-12">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="active">
-                                <a href="#crontab" data-toggle="tab">Crontab</a>
-                            </li>
-                            <li>
-                                <a href="#bash" data-toggle="tab">Bash</a>
-                            </li>
-                            <li>
-                                <a href="#python" data-toggle="tab">Python</a>
-                            </li>
-                            <li class="hidden-xs">
-                                <a href="#node" data-toggle="tab">Node.js</a>
-                            </li>
-                            <li class="hidden-xs">
-                                <a href="#php" data-toggle="tab">PHP</a>
-                            </li>
-                            <li class="hidden-xs">
-                                <a href="#browser" data-toggle="tab">Browser</a>
-                            </li>
-                            <li class="hidden-xs">
-                                <a href="#powershell" data-toggle="tab">PowerShell</a>
-                            </li>
-                            <li class="hidden-xs">
-                                <a href="#email" data-toggle="tab">Email</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active" id="crontab">
-                                {% include "front/snippets/crontab.html" %}
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="bash">
-                                {% include "front/snippets/bash.html" %}
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="python">
-                                {% include "front/snippets/python.html" %}
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="node">
-                                {% include "front/snippets/node.html" %}
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="php">
-                                {% include "front/snippets/php.html" %}
-                            </div>
-                            <div class="tab-pane" id="browser">
-                                {% include "front/snippets/browser.html" %}
-                            </div>
-                            <div class="tab-pane" id="powershell">
-                                {% include "front/snippets/powershell.html" %}
-                            </div>
-                            <div class="tab-pane" id="email">
-                                <div class="instructions">
-                                    As an alternative to HTTP/HTTPS requests, you can "ping" this check by sending an email message to
-                                    <div class="email-address">
-                                        <code>{{ check.email }}</code>
-                                    </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="active">
+                            <a href="#crontab" data-toggle="tab">Crontab</a>
+                        </li>
+                        <li>
+                            <a href="#bash" data-toggle="tab">Bash</a>
+                        </li>
+                        <li>
+                            <a href="#python" data-toggle="tab">Python</a>
+                        </li>
+                        <li class="hidden-xs">
+                            <a href="#node" data-toggle="tab">Node.js</a>
+                        </li>
+                        <li class="hidden-xs">
+                            <a href="#php" data-toggle="tab">PHP</a>
+                        </li>
+                        <li class="hidden-xs">
+                            <a href="#browser" data-toggle="tab">Browser</a>
+                        </li>
+                        <li class="hidden-xs">
+                            <a href="#powershell" data-toggle="tab">PowerShell</a>
+                        </li>
+                        <li class="hidden-xs">
+                            <a href="#email" data-toggle="tab">Email</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="crontab">
+                            {% include "front/snippets/crontab.html" %}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="bash">
+                            {% include "front/snippets/bash.html" %}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="python">
+                            {% include "front/snippets/python.html" %}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="node">
+                            {% include "front/snippets/node.html" %}
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="php">
+                            {% include "front/snippets/php.html" %}
+                        </div>
+                        <div class="tab-pane" id="browser">
+                            {% include "front/snippets/browser.html" %}
+                        </div>
+                        <div class="tab-pane" id="powershell">
+                            {% include "front/snippets/powershell.html" %}
+                        </div>
+                        <div class="tab-pane" id="email">
+                            <div class="instructions">
+                                As an alternative to HTTP/HTTPS requests, you can "ping" this check by sending an email message to
+                                <div class="email-address">
+                                    <code>{{ check.email }}</code>
                                 </div>
                             </div>
                         </div>
@@ -329,77 +332,76 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="row">
+    <div class="row">
 
-            <div class="footer-jumbo-bleed">
-                <div class="col-sm-12">
-                    <div class="jumbotron">
-                        <div class="row">
-                            <div class="col-sm-7">
-                                <p>healthchecks.io is a
-                                    <strong>free</strong> and
-                                    <a href="https://github.com/healthchecks/healthchecks">open source</a> service. Setting up monitoring for your cron jobs only takes minutes.
-                                    Start sleeping better at nights!</p>
+        <div class="footer-jumbo-bleed">
+            <div class="col-sm-12">
+                <div class="jumbotron">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <p>healthchecks.io is a
+                                <strong>free</strong> and
+                                <a href="https://github.com/healthchecks/healthchecks">open source</a> service. Setting up monitoring for your cron jobs only takes minutes. Start
+                                sleeping better at nights!</p>
 
-                            </div>
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-4">
-                                <form action="{% url 'hc-login' %}" method="post">
-                                    {% csrf_token %}
-
-                                    <div class="form-group">
-                                        <div class="input-group input-group-lg">
-                                            <div class="input-group-addon">@</div>
-                                            <input type="email" class="form-control" name="email" autocomplete="email" placeholder="Email">
-                                        </div>
-                                    </div>
-
-                                    <div class="clearfix">
-                                        <button type="submit" class="btn btn-lg btn-primary pull-right">
-                                            Get Started
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
                         </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-4">
+                            <form action="{% url 'hc-login' %}" method="post">
+                                {% csrf_token %}
 
+                                <div class="form-group">
+                                    <div class="input-group input-group-lg">
+                                        <div class="input-group-addon">@</div>
+                                        <input type="email" class="form-control" name="email" autocomplete="email" placeholder="Email">
+                                    </div>
+                                </div>
+
+                                <div class="clearfix">
+                                    <button type="submit" class="btn btn-lg btn-primary pull-right">
+                                        Get Started
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
+
                 </div>
             </div>
-
         </div>
 
     </div>
-    {% endblock %} {% block scripts %} {% compress js %}
-    
-    <script src="{% static 'js/collapse-native.js' %}"></script>
-    <script src="{% static 'js/tab-native.js' %}"></script>
-    <script src="{% static 'js/welcome.js' %}"></script>
-    <script src="https://cdn.rawgit.com/mattboldt/typed.js/master/lib/typed.min.js"></script> 
 
-    <script>
-            var typed = new Typed('.element', {
-            strings: ["Instant alerts when your web services fail","Instant alerts when your tasks don't run on schedule",
-                      "Easily Integrate and collaborate with <strong>teams</strong>",
-                      "<strong>Start</strong> sleeping better at night",
-                      ""],
-              typeSpeed: 60,
-              backSpeed: 30,
-              backDelay: 750,
-              startDelay: 1000,
-              loop: true,
-            });
-    </script>
+</div>
+{% endblock %} {% block scripts %} {% compress js %}
 
-    <script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
+<script src="{% static 'js/collapse-native.js' %}"></script>
+<script src="{% static 'js/tab-native.js' %}"></script>
+<script src="{% static 'js/welcome.js' %}"></script>
+<script src="https://cdn.rawgit.com/mattboldt/typed.js/master/lib/typed.min.js"></script>
+
+<script>
+    var typed = new Typed('.element', {
+        strings: ["Instant alerts when your web services fail", "Instant alerts when your tasks don't run on schedule",
+            "Easily Integrate and collaborate with <strong>teams</strong>",
+            "<strong>Start</strong> sleeping better at night",
+            ""],
+        typeSpeed: 60,
+        backSpeed: 30,
+        backDelay: 750,
+        startDelay: 1000,
+        loop: true,
+    });
+</script>
+
+<script src="https://unpkg.com/scrollreveal/dist/scrollreveal.min.js"></script>
 <script>
     window.sr = ScrollReveal();
     sr.reveal('#pitch', {
-    duration: 2000,
-    distance: '200px',
-    origin: 'top'
+        duration: 2000,
+        distance: '200px',
+        origin: 'top'
     });
-</script>
-    
-    {% endcompress %} {% endblock %}
+</script> {% endcompress %} {% endblock %}
