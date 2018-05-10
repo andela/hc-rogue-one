@@ -13,3 +13,4 @@ static-collected
 static/.DS_Store
 .vscode
 venv-healthchecks/
+*migrations/
