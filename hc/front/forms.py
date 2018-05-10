@@ -1,5 +1,7 @@
 from django import forms
 from hc.api.models import Channel
+from ckeditor.fields import RichTextField
+from hc.front.models import Category, Blog, Comment
 
 
 class NameTagsForm(forms.Form):
@@ -41,3 +43,49 @@ class AddWebhookForm(forms.Form):
 
     def get_value(self):
         return "{value_down}\n{value_up}".format(**self.cleaned_data)
+
+class AddCategoryForm(forms.Form):
+    category = forms.CharField(max_length=100)
+
+    def clean(self):
+        cleaned_data = super(AddCategoryForm, self).clean()
+        category = cleaned_data.get('category')
+        if not category:
+            raise forms.ValidationError('category name required!')
+    
+    class Meta:
+        model = Category
+        fields = ['category']
+
+class AddBlogForm(forms.ModelForm):
+
+    title = forms.CharField(max_length=100)
+    category = forms.ModelChoiceField(Category.objects.all())
+    body = RichTextField()
+    def clean(self):
+        cleaned_data = super(AddBlogForm, self).clean()
+        title = cleaned_data.get('title')
+        body = cleaned_data.get('body')
+        if not title and not body:
+            raise forms.ValidationError('Fill in all fields')
+
+    class Meta:
+        model = Blog
+        fields = ['title','category','body']
+
+
+
+class AddCommentForm(forms.Form):
+    comment = forms.CharField(max_length=4000,
+                           widget=forms.Textarea(),
+                           help_text="write comment here!")    
+    def clean(self):
+        cleaned_data = super(AddCommentForm, self).clean()
+        comment = cleaned_data.get('comment')
+        if not comment:
+            raise forms.ValidationError('Fill in all fields')
+
+    class Meta:
+        model = Comment
+        fields = ['comment']
+
