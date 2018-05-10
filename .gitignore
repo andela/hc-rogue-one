@@ -1,4 +1,5 @@
-__pycache__/
+*__pycache__/*
+*migrations/*
 .pytest_cache/
 hc/accounts/.pytest_cache/
 
@@ -13,4 +14,6 @@ static-collected
 static/.DS_Store
 .vscode
 venv-healthchecks/
-*migrations/
+hc/front/migrations/
+hc/api/migrations/
+hc/accounts/migrations/
