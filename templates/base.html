@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     {% load compress staticfiles %}
     <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
 
@@ -91,7 +93,13 @@
                         <a href="{% url 'hc-channels' %}">Integrations</a>
                     </li>
 
+                    <li {% if page == 'task' %} class="active" {% endif %}>
+                            <a href="{% url 'hc-task' %}">Schedule Task</a>
+                    </li>
+
                 {% endif %}
+
+               
 
 
                 {% if show_pricing %}

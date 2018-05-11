@@ -148,6 +148,9 @@ def docs_api(request):
 def about(request):
     return render(request, "front/about.html", {"page": "about"})
 
+def schedule_task(request):
+    return render(request, "front/scheduled_task.html", {"page": "task"})
+
 def blog(request):
     """ list all blogs """
     blogs_list = Blog.objects.all()
@@ -218,7 +221,6 @@ def add_comment(request, blogid):
         form = AddCommentForm()
 
     return render(request, "front/add_comment.html", {'form':form})
-
 
 
 @login_required
