@@ -12,14 +12,7 @@ django-compressor==2.1
 django-heroku==0.3.1
 django-js-asset==1.1.0
 django-ses-backend==0.1.1
-<<<<<<< HEAD
-<<<<<<< HEAD
 django-widget-tweaks==1.4.2
-=======
->>>>>>> ft(live-chat): Integrate live chat system
-=======
-django-widget-tweaks==1.4.2
->>>>>>> ft(frequently-asked-questions): Add frequently asked questions
 djmail==0.11.0
 futures==3.1.1
 idna==2.6
@@ -29,10 +22,7 @@ lxml==4.2.1
 mccabe==0.6.1
 mock==2.0.0
 pbr==4.0.2
-<<<<<<< HEAD
 Pillow==5.1.0
-=======
->>>>>>> ft(live-chat): Integrate live chat system
 premailer==2.9.6
 psycopg2==2.7.4
 psycopg2-binary==2.7.4
