@@ -22,8 +22,8 @@ class LoginTestCase(TestCase):
 
 
         ### Assert that a user was created
-        result = User.objects.get(email=form['email'])
-        self.assertEqual(result.email, form['email'])
+        assert User.objects.get(email=form['email'])
+        
 
         # And email sent
         self.assertEqual(len(mail.outbox), 1)
@@ -34,8 +34,12 @@ class LoginTestCase(TestCase):
 
         ### Assert that check is associated with the new user
         user = User.objects.get(email=form['email'])
+<<<<<<< ecf0b40b8bb5ad0954dcfba1c652405b0758ec19
         result = Check.objects.get(user=user)
         self.assertEqual(user, result.user)
+=======
+        assert(Check.objects.get(user=user))
+>>>>>>> Fixing accounts tests
 
     def test_it_pops_bad_link_from_session(self):
         self.client.session["bad_link"] = True
