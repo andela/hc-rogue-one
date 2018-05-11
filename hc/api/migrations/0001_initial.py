@@ -51,6 +51,7 @@ class Migration(migrations.Migration):
                 ('last_ping', models.DateTimeField(blank=True, null=True)),
                 ('alert_after', models.DateTimeField(blank=True, editable=False, null=True)),
                 ('status', models.CharField(choices=[('up', 'Up'), ('down', 'Down'), ('new', 'New'), ('paused', 'Paused'), ('often', 'Often')], default='new', max_length=6)),
+                ('priority', models.CharField(default='normal', max_length=100)),
                 ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

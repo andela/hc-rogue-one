@@ -75,6 +75,7 @@
                 data-name="{{ check.name }}"
                 data-tags="{{ check.tags }}"
                 data-url="{% url 'hc-update-name' check.code %}"
+                data-priority="{{ check.priority }}"
                 class="btn btn-default my-checks-name">
                 Rename
             </a>

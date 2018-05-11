@@ -108,6 +108,21 @@ $(function () {
         $("#update-timeout-form").attr("action", $this.data("url"));
         periodSlider.noUiSlider.set($this.data("timeout"))
         graceSlider.noUiSlider.set($this.data("grace"))
+        if ($this.data("priority") === "lowest") {
+            $("#select-priority").val("-2")
+        }
+        else if ($this.data("priority") === "low") {
+            $("#select-priority").val("-1")
+        }
+        else if ($this.data("priority") === "normal") {
+            $("#select-priority").val("0")
+        }
+        else if ($this.data("priority") === "high") {
+            $("#select-priority").val("1")
+        }
+        else if ($this.data("priority") === "emergency") {
+            $("#select-priority").val("2")
+        }
         $('#update-timeout-modal').modal({"show":true, "backdrop":"static"});
 
         return false;
