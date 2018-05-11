@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from ckeditor.fields import RichTextField
 
+from hc.lib import emails
+
 # Create your models here.
 class Category(models.Model):
     title = models.CharField(max_length=100, unique=True)
@@ -48,8 +50,13 @@ class Comment(models.Model):
     def __str__(self):
         return self.body
 
-
-
-
-
-
+# Create your models here.
+class FrequentlyAskedQuestion(models.Model):
+    CHOICES = {
+        ('s','showing'),
+        ('h','hidden')
+    }
+    question = models.TextField(help_text='Enter any question')
+    answer = models.TextField(blank=True,null=True)
+    email = models.EmailField(help_text='Enter your email')
+    status = models.CharField(choices=CHOICES,max_length=1,default='h')

@@ -1,7 +1,7 @@
 from django import forms
 from hc.api.models import Channel
 from ckeditor.fields import RichTextField
-from hc.front.models import Category, Blog, Comment
+from hc.front.models import Category, Blog, Comment, FrequentlyAskedQuestion
 
 
 class NameTagsForm(forms.Form):
@@ -89,3 +89,11 @@ class AddCommentForm(forms.Form):
         model = Comment
         fields = ['comment']
 
+class FaqForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(FaqForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True
+        self.fields['question'].required = True
+    class Meta:
+        model = FrequentlyAskedQuestion
+        fields = ('email', 'question')

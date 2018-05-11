@@ -30,16 +30,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'compressor',
-
     'ckeditor',
     'ckeditor_uploader',
-    'widget_tweaks',
     'djmail',
-
     'hc.accounts',
     'hc.api',
     'hc.front',
-    'hc.payments'
+    'hc.payments',
+    'widget_tweaks',
 )
 
 MIDDLEWARE = (
