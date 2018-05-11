@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block title %}FAQ - healthchecks.io{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="row">
+    <div class="col-sm-10">
+        <h3>Frequently Asked Questions</h3>  
+    </div>
+    <div class="col-sm-2">
+        <h3><button class="btn btn-info" data-toggle="modal" data-target="#modalAskQuestion">Ask a question</button></h3>  
+    </div>
+    <div id="modalAskQuestion" class="modal fade" role="dialog">
+            <div class="modal-dialog">     
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Ask a question</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% for hidden_field in form.hidden_fields %}
+                            {{ hidden_field }}
+                        {% endfor %}
+                        
+                        {% for field in form.visible_fields %}
+                            <div class="form-group">
+                            {{ field.label_tag }}
+                            {% render_field field class="form-control" required="required" %}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                            </div>
+                        {% endfor %}
+                        <input type="submit" value="submit" class="btn btn-primary btn-block"/>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+          
+            </div>
+          </div>
+    </div>
+    {% if message %}
+    <div class="row text-right">
+            <h3 class="text text-success">{{ message }}</h3>  
+        </div>
+    {% endif %}
+    
+    <div class="row">
+        <div class="container">
+            {% for frequently_asked_question in frequently_asked_questions %}
+            <h4 class="text-info"><b>{{ frequently_asked_question.question }}</b></h4>
+            <p>{{ frequently_asked_question.answer }}</p>    
+            <hr/>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

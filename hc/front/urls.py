@@ -1,5 +1,6 @@
 from django.conf.urls import include, url
-
+from django.conf.urls.static import static
+from django.conf import settings
 from hc.front import views
 
 check_urls = [
@@ -39,6 +40,13 @@ urlpatterns = [
     url(r'^docs/api/$', views.docs_api, name="hc-docs-api"),
     url(r'^about/$', views.about, name="hc-about"),
     url(r'^task/$', views.schedule_task, name="hc-task"),
+    url(r'^blogs/$', views.blog, name="hc-blogs"),
+    url(r'^blogs/(?P<slug>[-\w.]+)$', views.view_blog_post, name="view_blog_post"),
+    url(r'^blogs/add/$', views.add_blog, name="hc-add-blog"),
+    url(r'^blogs/category/$', views.add_category, name="hc-add-category"),
+    url(r'^blogs/comment/(?P<blogid>\d+)$', views.add_comment, name="hc-add-comment"),
     url(r'^privacy/$', views.privacy, name="hc-privacy"),
     url(r'^terms/$', views.terms, name="hc-terms"),
-]
+    url(r'^faq/$', views.faq, name="hc-faq"),    
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+    ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

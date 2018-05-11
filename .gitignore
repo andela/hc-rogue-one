@@ -1,6 +1,7 @@
-__pycache__/
+*__pycache__/*
 .pytest_cache/
 hc/accounts/.pytest_cache/
+
 
 *.pyc
 .coverage
@@ -11,3 +12,6 @@ static-collected
 .DS_Store
 static/.DS_Store
 .vscode
+
+venv-healthchecks/
+

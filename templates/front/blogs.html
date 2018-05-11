@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Blog posts{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-9">
+        <h3>Blog Posts</h3>
+        {% if blogs_list %}
+        <ul class="list-unstyled">
+            {% for blog in blogs_list %}
+           <h3 class="text-capitalize text-info"> <li><a href="{{ blog.get_absolute_url}}">{{ blog.title}}</a></li></h3>
+            {{blog.body | truncatechars:250 |safe }}
+        </br>
+        <p class="text-capitalize text-info">Written by: {{ blog.author }}. On {{blog.created}}</p> 
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <a class="btn btn-success" href="/blogs/add/" role="button">Add Blog</a>
+    </div>
+    <div class="col-sm-3">
+        <h3>Categories</h3>
+        {% if category_list %}
+        <ul>
+            {% for category in category_list %}
+           <h4> <li> {{category.title}} </li></h4>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <a class="btn btn-success" href="/blogs/category/" role="button">Add Category</a>
+
+    </div>
+</div>
+{% endblock %}
