@@ -15,10 +15,14 @@ from django.shortcuts import redirect, render
 from hc.accounts.forms import (EmailPasswordForm, InviteTeamMemberForm,
                                RemoveTeamMemberForm, ReportSettingsForm,
                                SetPasswordForm, TeamNameForm)
+
+from hc.front.forms import (AddChannelForm,)
 from hc.accounts.models import Profile, Member
-from hc.api.models import Channel, Check
+from hc.api.models import Channel, Check, AssignedChecks
 from hc.lib.badges import get_badge_url
 from django.utils import timezone
+
+from hc.front import views
 
 
 def _make_user(email):
@@ -162,7 +166,7 @@ def profile(request):
                 profile.reports_allowed = form.cleaned_data["reports_allowed"]
                 profile.save()
                 messages.success(request, "Your settings have been updated!")
-                
+
         elif "invite_team_member" in request.POST:
             if not profile.team_access_allowed:
                 return HttpResponseForbidden()
@@ -176,7 +180,11 @@ def profile(request):
                 except User.DoesNotExist:
                     user = _make_user(email)
 
+
+                views.assign_checks(request, user.email)
+
                 profile.invite(user)
+
                 messages.success(request, "Invitation to %s sent!" % email)
         elif "remove_team_member" in request.POST:
             form = RemoveTeamMemberForm(request.POST)
@@ -188,6 +196,8 @@ def profile(request):
                 farewell_user.profile.save()
 
                 Member.objects.filter(team=profile,
+                                      user=farewell_user).delete()
+                AssignedChecks.objects.filter(team=profile,
                                       user=farewell_user).delete()
 
                 messages.info(request, "%s removed from team!" % email)
@@ -212,8 +222,10 @@ def profile(request):
             continue
 
         badge_urls.append(get_badge_url(username, tag))
-
+    
+    checks = Check.objects.filter(user=request.team.user)
     ctx = {
+        "checks": checks,
         "page": "profile",
         "badge_urls": badge_urls,
         "profile": profile,

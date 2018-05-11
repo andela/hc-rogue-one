@@ -2,7 +2,7 @@ from django.core import mail
 
 from hc.test import BaseTestCase
 from hc.accounts.models import Member, Profile
-from hc.api.models import Check
+from hc.api.models import Check, AssignedChecks
 
 
 class ProfileTestCase(BaseTestCase):
@@ -52,6 +52,30 @@ class ProfileTestCase(BaseTestCase):
 
         ### Assert the existence of the member emails
 
+        self.assertTrue("frank@example.org" in member_emails)
+
+        ###Assert that the email was sent and check email content
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].subject, 'You have been invited to join '
+            +'alice@example.org on healthchecks.io')
+    
+    def test_it_defines_scope_on_invite(self):
+        self.client.login(username="alice@example.org", password="password")
+        check = Check(name="Test Check", user=self.alice)
+        check.save()
+
+        form = {"invite_team_member": "1", "email": "frank@example.org", 'check-'+str(check.code): 'on'}
+        r = self.client.post("/accounts/profile/", form)
+        self.assertEqual(r.status_code, 200)
+
+        member_emails = set()
+        for member in self.alice.profile.member_set.all():
+            member_emails.add(member.user.email)
+
+        # Assert that check was AssignedChecks
+        assert AssignedChecks.objects.count() == 1
+
+        ### Assert the existence of the member emails
         self.assertTrue("frank@example.org" in member_emails)
 
         ###Assert that the email was sent and check email content

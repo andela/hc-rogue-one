@@ -35,6 +35,11 @@ $(function() {
         console.log("aaa", value);
 
     });
+    var $xm = $("#invite-team-member-modal");
+    $xm.on("click", "#toggle-all", function() {
+        var value = $(this).prop("checked");
+        $xm.find(".toggle").prop("checked", value);
+    });
 
     $(".channel-remove").click(function() {
         var $this = $(this);

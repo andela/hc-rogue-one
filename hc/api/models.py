@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from hc.accounts.models import Profile
 from hc.api import transports
 from hc.lib import emails
 
@@ -88,7 +89,6 @@ class Check(models.Model):
         now = timezone.now()
 
         if self.last_ping + self.timeout + self.grace > now:
-            print(self.status)
             if self.status == "often":
                 return "often"
             return "up"
@@ -144,6 +144,12 @@ class Ping(models.Model):
     method = models.CharField(max_length=10, blank=True)
     ua = models.CharField(max_length=200, blank=True)
 
+class AssignedChecks(models.Model):
+    user = models.ForeignKey(User)
+    team = models.ForeignKey(Profile)
+    checks = models.ForeignKey(Check, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
 
 class Channel(models.Model):
     code = models.UUIDField(default=uuid.uuid4, editable=False)
@@ -157,6 +163,8 @@ class Channel(models.Model):
     def assign_all_checks(self):
         checks = Check.objects.filter(user=self.user)
         self.checks.add(*checks)
+
+    # def assign_checks(self, checks)
 
     def make_token(self):
         seed = "%s%s" % (self.code, settings.SECRET_KEY)

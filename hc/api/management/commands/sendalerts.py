@@ -22,7 +22,6 @@ class Command(BaseCommand):
         # up and often checks can both go down
         going_down = query.filter(alert_after__lt=now, status="up") | query.filter(alert_after__lt=now, status="often")
         going_up = query.filter(alert_after__gt=now, status="down")
-        # running_often = query.filter(alert_after__gt=now, status="often")
 
         # Don't combine this in one query so Postgres can query using index:
         checks=list(going_down.iterator())+list(going_up.iterator())

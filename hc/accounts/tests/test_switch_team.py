@@ -1,5 +1,5 @@
 from hc.test import BaseTestCase
-from hc.api.models import Check
+from hc.api.models import Check, AssignedChecks
 
 
 class SwitchTeamTestCase(BaseTestCase):
@@ -7,6 +7,9 @@ class SwitchTeamTestCase(BaseTestCase):
     def test_it_switches(self):
         c = Check(user=self.alice, name="This belongs to Alice")
         c.save()
+        # give Bob access to check
+        assigned_checks = AssignedChecks(user=self.bob, team=self.profile, checks=c)
+        assigned_checks.save()
 
         self.client.login(username="bob@example.org", password="password")
 
