@@ -131,6 +131,37 @@ if os.environ.get("DB") == "heroku":
             'TEST': {'CHARSET': 'UTF8'}
         }
     }
+HC_USER = os.environ.get("HC_USER")
+HC_NAME = os.environ.get("HC_NAME")
+HC_HOST = os.environ.get("HC_HOST")
+HC_PASSWORD = os.environ.get("HC_PASSWORD")
+if os.environ.get("DB") == "heroku":
+    DATABASES = {
+        'default': {
+            'ENGINE':   'django.db.backends.postgresql',
+            'USER':     HC_USER,
+            'NAME':     HC_NAME,
+            'HOST':     HC_HOST,
+            'PASSWORD': HC_PASSWORD,
+            'TEST': {'CHARSET': 'UTF8'}
+        }
+    }
+HC_USER = os.environ.get("HC_USER")
+HC_NAME = os.environ.get("HC_NAME")
+HC_HOST = os.environ.get("HC_HOST")
+HC_PASSWORD = os.environ.get("HC_PASSWORD")
+
+if os.environ.get("DB") == "heroku":
+    DATABASES = {
+        'default': {
+            'ENGINE':   'django.db.backends.postgresql',
+            'USER':     HC_USER,
+            'NAME':     HC_NAME,
+            'HOST':     HC_HOST,
+            'PASSWORD': HC_PASSWORD,
+            'TEST': {'CHARSET': 'UTF8'}
+        }
+    }
 
 if os.environ.get("DB") == "mysql":
     DATABASES = {
