@@ -39,7 +39,7 @@ urlpatterns = [
     url(r'^docs/$', views.docs, name="hc-docs"),
     url(r'^docs/api/$', views.docs_api, name="hc-docs-api"),
     url(r'^about/$', views.about, name="hc-about"),
-
+    url(r'^task/$', views.schedule_task, name="hc-task"),
     url(r'^blogs/$', views.blog, name="hc-blogs"),
     url(r'^blogs/(?P<slug>[-\w.]+)$', views.view_blog_post, name="view_blog_post"),
     url(r'^blogs/add/$', views.add_blog, name="hc-add-blog"),
