@@ -49,6 +49,7 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'hc.accounts.middleware.TeamAccessMiddleware',
+    
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -115,22 +116,6 @@ if os.environ.get("DB") == "heroku":
             'TEST': {'CHARSET': 'UTF8'}
         }
     }
-HC_USER = os.environ.get("HC_USER")
-HC_NAME = os.environ.get("HC_NAME")
-HC_HOST = os.environ.get("HC_HOST")
-HC_PASSWORD = os.environ.get("HC_PASSWORD")
-
-if os.environ.get("DB") == "heroku":
-    DATABASES = {
-        'default': {
-            'ENGINE':   'django.db.backends.postgresql',
-            'USER':     HC_USER,
-            'NAME':     HC_NAME,
-            'HOST':     HC_HOST,
-            'PASSWORD': HC_PASSWORD,
-            'TEST': {'CHARSET': 'UTF8'}
-        }
-    }
 
 if os.environ.get("DB") == "mysql":
     DATABASES = {
@@ -155,7 +140,7 @@ USE_TZ = True
 SITE_ROOT = "http://localhost:8000"
 PING_ENDPOINT = SITE_ROOT + "/ping/"
 PING_EMAIL_DOMAIN = HOST
-STATIC_URL = '/static/' 
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static-collected')
 STATICFILES_FINDERS = (
@@ -187,6 +172,8 @@ PUSHOVER_EMERGENCY_EXPIRATION = 86400
 # Pushbullet integration -- override these in local_settings
 PUSHBULLET_CLIENT_ID = None
 PUSHBULLET_CLIENT_SECRET = None
+
+
 
 
 if os.path.exists(os.path.join(BASE_DIR, "hc/local_settings.py")):

@@ -7,16 +7,17 @@ from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.db.models import Count
-from django.http import Http404, HttpResponseBadRequest, HttpResponseForbidden
+from django.http import Http404, HttpResponseBadRequest, HttpResponseForbidden, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.six.moves.urllib.parse import urlencode
 from hc.api.decorators import uuid_or_400
-from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping
 from hc.front.models import Category, Blog, Comment
+from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping, AssignedChecks
 from hc.front.forms import (AddChannelForm, AddWebhookForm, NameTagsForm,
                             TimeoutForm, AddBlogForm, AddCategoryForm, AddCommentForm,
                             FaqForm)
@@ -33,8 +34,15 @@ def pairwise(iterable):
 
 @login_required
 def my_checks(request):
-    q = Check.objects.filter(user=request.team.user).order_by("created")
-    checks = list(q)
+    if request.user.id == request.team.user.id:
+        check_rows = Check.objects.filter(user=request.team.user).order_by("created")
+    else:
+        check_rows = []
+        assigned_checkrows = AssignedChecks.objects.filter(team=request.team.user.profile, user=request.user).order_by("created")
+        for assigned_checkrow in assigned_checkrows:
+            check_rows.append(assigned_checkrow.checks)
+
+    checks = list(check_rows)
 
     counter = Counter()
     down_tags, grace_tags = set(), set()
@@ -61,7 +69,6 @@ def my_checks(request):
         "grace_tags": grace_tags,
         "ping_endpoint": settings.PING_ENDPOINT
     }
-
     return render(request, "front/my_checks.html", ctx)
 
 @login_required
@@ -69,7 +76,15 @@ def my_failed_checks(request):
 
     """ Views function for retieving and displaying all failed checks """
 
-    checks = list(Check.objects.filter(user=request.team.user).order_by("created"))
+    if request.user.id == request.team.user.id:
+        check_rows = Check.objects.filter(user=request.team.user).order_by("created")
+    else:
+        check_rows = []
+        assigned_checkrows = AssignedChecks.objects.filter(team=request.team.user.profile, user=request.user).order_by("created")
+        for assigned_checkrow in assigned_checkrows:
+            check_rows.append(assigned_checkrow.checks)
+
+    checks = list(check_rows)
     
     failed_checks = []
     for check in checks:
@@ -86,7 +101,22 @@ def my_failed_checks(request):
     }
 
     return render(request, "front/my_checks.html", ctx)
-   
+
+@login_required
+def assign_checks(request, email):
+    team = request.user.profile
+    user = User.objects.get(email=email)
+    for key in request.POST:
+        if key.startswith("check-"):
+            code = key[6:]
+            try:
+                check = Check.objects.get(code=code)
+            except Check.DoesNotExist:
+                return HttpResponseBadRequest()
+            if check.user_id != request.team.user.id:
+                return HttpResponseForbidden()
+            assigned_check = AssignedChecks(user = user, team = team, checks = check)
+            assigned_check.save()
 
 def _welcome_check(request):
     check = None
@@ -218,6 +248,7 @@ def add_comment(request, blogid):
         form = AddCommentForm()
 
     return render(request, "front/add_comment.html", {'form':form})
+
 
 
 
@@ -398,7 +429,15 @@ def do_add_channel(request, data):
         channel.user = request.team.user
         channel.save()
 
-        channel.assign_all_checks()
+        if request.user.id == request.team.user.id:
+            channel.assign_all_checks()
+        else:
+            assigned_checks = []
+            rows = AssignedChecks.objects.filter(user=request.user.id).order_by("created")
+            for row in rows:
+                assigned_checks.append(row.checks)
+
+            channel.checks = assigned_checks
 
         if channel.kind == "email":
             channel.send_verify_link()
@@ -422,7 +461,13 @@ def channel_checks(request, code):
         return HttpResponseForbidden()
 
     assigned = set(channel.checks.values_list('code', flat=True).distinct())
-    checks = Check.objects.filter(user=request.team.user).order_by("created")
+    if(request.team.user.id == request.user.id):
+        checks = Check.objects.filter(user=request.team.user).order_by("created")
+    else:
+        checks = []
+        rows = AssignedChecks.objects.filter(user=request.user.id).order_by("created")
+        for row in rows:
+            checks.append(row.checks)
 
     ctx = {
         "checks": checks,

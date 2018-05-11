@@ -1,4 +1,4 @@
-from hc.api.models import Check
+from hc.api.models import Check, AssignedChecks
 from hc.test import BaseTestCase
 from datetime import timedelta as td
 from django.utils import timezone
@@ -12,6 +12,9 @@ class MyChecksTestCase(BaseTestCase):
         self.check.save()
 
     def test_it_works(self):
+        assigned_checks = AssignedChecks(user=self.bob, team=self.profile, checks=self.check)
+        assigned_checks.save()
+        assert AssignedChecks.objects.count() == 1
         for email in ("alice@example.org", "bob@example.org"):
             self.client.login(username=email, password="password")
             r = self.client.get("/checks/")

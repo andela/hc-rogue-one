@@ -297,6 +297,43 @@
                                 placeholder="friend@example.org">
                         </div>
                     </div>
+                    <p>Define team member scope</p>
+                    <table class="table channel-checks-table">
+                        <tr>
+                            <th class="check-all-cell">
+                                <input
+                                    id="toggle-all"
+                                    type="checkbox"
+                                    class="toggle" />
+                            </th>
+                            <th class="check-all-cell" colspan="2">
+                                Select / Unselect All
+                            </th>
+                        </tr>
+                        {% for check in checks %}
+                        <tr>
+                            <td>
+                                <input
+                                    type="checkbox"
+                                    class="toggle"
+                                    data-toggle="checkbox-x"
+                                     checked
+                                    name="check-{{ check.code }}">
+
+                            </td>
+                            <td>
+                                {% if check.name %}
+                                    {{ check.name }}
+                                {% else %}
+                                    <span class="unnamed">unnamed</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <code>{{ check.code }}</code>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -350,5 +387,6 @@
 <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/profile.js' %}"></script>
+<script src="{% static 'js/channels.js' %}"></script>
 {% endcompress %}
 {% endblock %}
