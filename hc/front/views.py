@@ -17,7 +17,7 @@ from django.utils.crypto import get_random_string
 from django.utils.six.moves.urllib.parse import urlencode
 from hc.api.decorators import uuid_or_400
 from hc.front.models import Category, Blog, Comment, EmailTasks
-from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping, PO_PRIORITIES, AssignedChecks
+from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping, PO_PRIORITIES, AssignedChecks, NO_PRIORITY
 from hc.front.forms import (AddChannelForm, AddWebhookForm, NameTagsForm,
                             TimeoutForm, AddBlogForm, AddCategoryForm, AddCommentForm,
                             FaqForm, EmailTaskForm)
@@ -122,6 +122,25 @@ def assign_checks(request, email):
             if check.user_id != request.team.user.id:
                 return HttpResponseForbidden()
             assigned_check = AssignedChecks(user = user, team = team, checks = check)
+            assigned_check.save()
+
+@login_required
+def assign_checks_priority(request, email):
+    team = request.user.profile
+    user = User.objects.get(email=email)
+    for key in request.POST:
+        if key.startswith("check-"):
+            code = key[6:]
+            priority = request.POST["notification-priority-"+code]
+
+            try:
+                check = Check.objects.get(code=code)
+            except Check.DoesNotExist:
+                return HttpResponseBadRequest()
+            if check.user_id != request.team.user.id:
+                return HttpResponseForbidden()
+            assigned_check = AssignedChecks.objects.get(user=user, team=team, checks=check)
+            assigned_check.notofication_priority = NO_PRIORITY[int(priority)]
             assigned_check.save()
 
 def _welcome_check(request):

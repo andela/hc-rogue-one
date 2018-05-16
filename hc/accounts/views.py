@@ -10,11 +10,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 from django.core import signing
-from django.http import HttpResponseForbidden, HttpResponseBadRequest
+from django.http import HttpResponseForbidden, HttpResponseBadRequest, Http404
 from django.shortcuts import redirect, render
 from hc.accounts.forms import (EmailPasswordForm, InviteTeamMemberForm,
                                RemoveTeamMemberForm, ReportSettingsForm,
-                               SetPasswordForm, TeamNameForm)
+                               SetPasswordForm, TeamNameForm, NotificationPriorityForm)
 
 from hc.front.forms import (AddChannelForm,)
 from hc.accounts.models import Profile, Member
@@ -210,6 +210,20 @@ def profile(request):
                 profile.team_name = form.cleaned_data["team_name"]
                 profile.save()
                 messages.success(request, "Team Name updated!")
+
+        elif "set-notification-priority" in request.POST:
+            form = NotificationPriorityForm(request.POST)
+            print(request.POST)
+            email = request.POST["email"]
+            if form.is_valid():
+
+                email = form.cleaned_data["email"]
+                try:
+                    user = User.objects.get(email=email)
+                except User.DoesNotExist:
+                    user = _make_user(email)
+
+            views.assign_checks_priority(request, email)
 
     tags = set()
     for check in Check.objects.filter(user=request.team.user):
