@@ -170,7 +170,7 @@ class AssignedChecks(models.Model):
     team = models.ForeignKey(Profile)
     checks = models.ForeignKey(Check, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
-    notofication_priority = models.CharField(default=NO_PRIORITY[0], max_length=50)
+    notification_priority = models.CharField(default=NO_PRIORITY[0], max_length=50)
 
 
 class Channel(models.Model):
