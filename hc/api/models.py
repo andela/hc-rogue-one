@@ -36,6 +36,8 @@ PO_PRIORITIES = {
     2: "emergency"
 }
 
+NO_PRIORITY = ['first', 'second', 'third', 'fourth', 'fifth']
+
 class Department(models.Model):
     """ Team department for job categorization """
 
@@ -52,6 +54,7 @@ class Department(models.Model):
             "created": self.created.isoformat()
         }
         return result
+
 
 class Check(models.Model):
 
@@ -167,6 +170,7 @@ class AssignedChecks(models.Model):
     team = models.ForeignKey(Profile)
     checks = models.ForeignKey(Check, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
+    notofication_priority = models.CharField(default=NO_PRIORITY[0], max_length=50)
 
 
 class Channel(models.Model):
