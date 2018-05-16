@@ -1,7 +1,7 @@
 from django import forms
 from hc.api.models import Channel
 from ckeditor.fields import RichTextField
-from hc.front.models import Category, Blog, Comment, FrequentlyAskedQuestion
+from hc.front.models import Category, Blog, Comment, FrequentlyAskedQuestion, EmailTasks
 
 
 class NameTagsForm(forms.Form):
@@ -73,8 +73,6 @@ class AddBlogForm(forms.ModelForm):
         model = Blog
         fields = ['title','category','body']
 
-
-
 class AddCommentForm(forms.Form):
     comment = forms.CharField(max_length=4000,
                            widget=forms.Textarea(),
@@ -97,3 +95,35 @@ class FaqForm(forms.ModelForm):
     class Meta:
         model = FrequentlyAskedQuestion
         fields = ('email', 'question')
+
+
+class EmailTaskForm(forms.ModelForm):
+
+    Interval_choices =(
+        ('1','Minutes'),
+        ('60','Hours'),
+        ('1440','Days'),
+        ('10080','Weeks'))
+
+    task_name = forms.CharField(max_length=100)
+    subject = forms.CharField(max_length=200)
+    recipients = forms.CharField(max_length=500)
+    message = forms.Textarea()
+    interval = forms.ChoiceField(choices=Interval_choices)
+    time = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder': 'Enter numbers of time for selected interval'}))
+
+    def clean(self):
+        cleaned_data = super(EmailTaskForm, self).clean()
+        task_name = cleaned_data.get('task_name')
+        subject = cleaned_data.get('subject')
+        recipients = cleaned_data.get('recipients')
+        message = cleaned_data.get('message')
+        interval = cleaned_data.get('interval')
+        time = cleaned_data.get('time')
+        if not task_name and not subject and not recipients and not message and not interval and not time:
+            raise forms.ValidationError('Fill in all fields')
+
+    class Meta:
+        model = EmailTasks
+        fields = ['task_name','subject','recipients','message','interval','time']
+
