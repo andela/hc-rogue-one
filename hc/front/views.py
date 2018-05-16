@@ -16,11 +16,11 @@ from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.six.moves.urllib.parse import urlencode
 from hc.api.decorators import uuid_or_400
-from hc.front.models import Category, Blog, Comment
+from hc.front.models import Category, Blog, Comment, EmailTasks
 from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping, PO_PRIORITIES, AssignedChecks
 from hc.front.forms import (AddChannelForm, AddWebhookForm, NameTagsForm,
                             TimeoutForm, AddBlogForm, AddCategoryForm, AddCommentForm,
-                            FaqForm)
+                            FaqForm, EmailTaskForm)
 
 from hc.front.models import FrequentlyAskedQuestion
 
@@ -184,8 +184,30 @@ def docs_api(request):
 def about(request):
     return render(request, "front/about.html", {"page": "about"})
 
-def schedule_task(request):
-    return render(request, "front/scheduled_task.html", {"page": "task"})
+
+def email_task(request):
+    """
+    allows user to schedule standard tasks
+    """
+    current_user = request.user
+    tasks = EmailTasks.objects.all()
+    if request.method == "POST":
+        form = EmailTaskForm(request.POST)
+        if form.is_valid():
+            task_name = form.cleaned_data['task_name']
+            subject = form.cleaned_data['subject']
+            recipients = form.cleaned_data['recipients']
+            message = form.cleaned_data['message']
+            interval = form.cleaned_data['interval']
+            time = form.cleaned_data['time']
+            owner = current_user
+            task = EmailTasks(task_name=task_name, subject=subject, recipients=recipients, message=message, interval=interval,time=time,owner=owner)
+            task.save()
+            messages.success(request, "Your task has been saved!")
+    else:
+        form = EmailTaskForm()
+
+    return render(request, "front/scheduled_task.html", {"form": form, "tasks":tasks})
 
 
 def blog(request):

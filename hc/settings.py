@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'hc.front',
     'hc.payments',
     'widget_tweaks',
+    'celery',
+    'redis',
 )
 
 MIDDLEWARE = (
@@ -195,3 +197,13 @@ CKEDITOR_CONFIGS = {
         'height':250,
     }
 }
+
+# REDIS and CELERY related settings 
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+BROKER_URL = 'redis://localhost:6379/0' or os.environ.get("REDIS_URL")
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+CELERY_RESULT_BACKEND = os.environ.get("REDIS_URL") or 'redis://localhost:6379/0'
+CELERY_IMPORTS = (
+    'hc.tasks',
+)
