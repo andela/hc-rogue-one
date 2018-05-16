@@ -174,13 +174,17 @@ PUSHOVER_EMERGENCY_EXPIRATION = 86400
 PUSHBULLET_CLIENT_ID = None
 PUSHBULLET_CLIENT_SECRET = None
 
+# REDIS and CELERY related settings 
+#REDIS_HOST = 'localhost'
+#REDIS_PORT = '6379'
 
+BROKER_URL =  os.environ.get("REDIS_URL") or 'redis://localhost:6379/0' 
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+CELERY_RESULT_BACKEND = os.environ.get("REDIS_URL") or 'redis://localhost:6379/0'
+CELERY_IMPORTS = (
+    'hc.tasks',
+)
 
-
-if os.path.exists(os.path.join(BASE_DIR, "hc/local_settings.py")):
-    from .local_settings import *
-else:
-    warnings.warn("local_settings.py not found, using defaults")
 
 ####################################
     ##  CKEDITOR CONFIGURATION ##
@@ -198,12 +202,3 @@ CKEDITOR_CONFIGS = {
     }
 }
 
-# REDIS and CELERY related settings 
-REDIS_HOST = 'localhost'
-REDIS_PORT = '6379'
-BROKER_URL = 'redis://localhost:6379/0' or os.environ.get("REDIS_URL")
-BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
-CELERY_RESULT_BACKEND = os.environ.get("REDIS_URL") or 'redis://localhost:6379/0'
-CELERY_IMPORTS = (
-    'hc.tasks',
-)
