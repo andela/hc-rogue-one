@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load compress staticfiles %}
+
+{% block title %}Add Department - healthchecks.io{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1>
+        {% if request.team == request.user.profile %}
+            Add Department
+        {% else %}
+            {{ request.team.team_name }}
+        {% endif %}
+        </h1>
+        <p>Group your cron jobs by department.</p>
+    </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-sm-12">
+        <form method="post" class="form-horizontal" action="{% url 'hc-add-department' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <input
+                        id="id_department"
+                        type="department"
+                        class="form-control"
+                        name="name"
+                        placeholder="Department name">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <button type="submit" class="btn btn-primary btn-lg">Save Department</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% compress js %}
+<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+{% endcompress %}
+{% endblock %}
+

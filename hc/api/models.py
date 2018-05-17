@@ -36,6 +36,22 @@ PO_PRIORITIES = {
     2: "emergency"
 }
 
+class Department(models.Model):
+    """ Team department for job categorization """
+
+    user = models.ForeignKey(User)
+    name = models.CharField(max_length=60)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    def to_dict(self):
+        result = {
+            "name": self.name,
+            "created": self.created.isoformat()
+        }
+        return result
 
 class Check(models.Model):
 
@@ -55,6 +71,7 @@ class Check(models.Model):
     alert_after = models.DateTimeField(null=True, blank=True, editable=False)
     status = models.CharField(max_length=6, choices=STATUSES, default="new")
     priority = models.CharField(default=PO_PRIORITIES[0], max_length=100)
+    department = models.ForeignKey(Department, blank=True, null=True)
 
     def name_then_code(self):
         if self.name:
