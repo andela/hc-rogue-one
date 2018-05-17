@@ -230,9 +230,11 @@
         </div>
     </div>
 
+    
+
     <div class="row tour-section">
         <div class="col-sm-8">
-            <img class="img-responsive" src="{% static 'img/tasks.png' %}" srcset="{% static 'img/tasks.png'%} 1x, {% static 'img/tasks@2x.png'%} 2x"
+            <img class="img-responsive" src="{% static 'img/tasks.png' %}" srcset="{% static 'img/tasks.png'%} 1x, {% static 'img/tasks2x_.png'%} 2x"
                 alt="GUI for creation of checks" />
         </div>
         <div class="col-sm-4">
@@ -244,6 +246,69 @@
                 It will also track your scheduled tasks average run times and alert you when a particular job is running
                 slowly or has failed altogether.
             </p>
+        </div>
+    </div>
+
+
+    <div class="row tour-section">
+        <div class="col-sm-12">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#myCarousel" data-slide-to="1"></li>
+                </ol>
+              
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                  <div class="item active">
+                    <img class="img-responsive col-sm-8" src="{% static 'img/account_settings1.png' %}" srcset="{% static 'img/account_settings1.png'%} 1x, {% static 'img/account_settings1.png'%} 2x"
+                alt="GUI for creation of checks" />
+                <div class="col-sm-4">
+                        <strong>1: Create a team and manage checks as a team.</strong>
+                        <p>Team access feature is not enabled by default. Upgrade to one of the paid plans to enable team access.</p>
+            
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    Go to <small> <strong>account settings,
+            
+                                    </strong> </small > click <small> <strong>paid plans</strong></small> and subscribe to enable team access.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Health checks by default creates for you a free account. 
+                                    Upgrade to one of the two subcription accounts to gain team access and increase yur log entries per check
+                                </td>
+                            </tr>
+                        </table>
+                </div>
+                  </div>
+              
+                  <div class="item">
+                    <img class="img-responsive col-sm-8" src="{% static 'img/invite_member1.png' %}" srcset="{% static 'img/invite_member1.png'%} 1x, {% static 'img/invite_member1.png'%} 2x"
+                alt="GUI for creation of checks" />
+                <div class="col-sm-4">
+                        <strong>2: Create a team and manage checks as a team - ctd.</strong>
+                        <p>Access the expanded dashboard on successful subscription. Add members email and assign them team checks if any before sending them and invite.</p>
+            
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    Invites are sent via email.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Team members <strong>only</strong> access and manage team checks assigned to them including status notificatons.
+                                </td>
+                            </tr>
+                        </table>
+                </div>
+                  </div>
+                </div>
+              </div>
         </div>
     </div>
 
@@ -382,6 +447,9 @@
 <script src="{% static 'js/collapse-native.js' %}"></script>
 <script src="{% static 'js/tab-native.js' %}"></script>
 <script src="{% static 'js/welcome.js' %}"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+  crossorigin="anonymous"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="https://cdn.rawgit.com/mattboldt/typed.js/master/lib/typed.min.js"></script>
 
 <script>
