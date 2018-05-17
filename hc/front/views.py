@@ -797,3 +797,5 @@ def add_department(request):
     ctx = {"page": "add_department", "form": form}
     return render(request, "front/add_department.html", ctx)
 
+
+
