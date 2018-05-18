@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load compress staticfiles %}
+
+{% block title %}Departments - healthchecks.io{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <h1>
+        {% if request.team == request.user.profile %}
+            Departments
+        {% else %}
+            {{ request.team.team_name }}
+        {% endif %}
+        </h1>
+    </div>
+    {% if messages %}
+    <div class="col-sm-12">
+        {% for message in messages %}
+            <p class="alert alert-{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+    {% if departments %}
+        <table id="departments-table" class="table hidden-xs">
+            {% for department in departments %}
+            <tr class="departments-row">
+                <td>
+                    {{ department.name }}
+                </td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="department-menu dropdown">
+                        <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        <span class="icon-settings" aria-hidden="true"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="">
+                                    Edit name
+                                </a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#" class="department-menu-remove">
+                                    Remove
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+    <div class="alert alert-info">You haven't added any departments yet.</div>
+    {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <a class="btn btn-primary btn-lg" href="{% url 'hc-add-department' %}" role="button">Add Department</a>
+    </div>
+</div>
+
+<div id="remove-department-modal" class="modal">
+    <div class="modal-dialog">
+        <form id="remove-department-form" method="post">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="remove-department-title">Remove Department <span class="remove-department-name"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <p>You are about to remove department
+                        <strong class="remove-department-name">---</strong>.
+                    </p>
+                    <p>Are you sure want to remove it?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Remove</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% compress js %}
+<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/departments.js' %}"></script>
+{% endcompress %}
+{% endblock %}
+
+
+
