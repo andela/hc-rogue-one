@@ -20,11 +20,7 @@ from hc.front.models import Category, Blog, Comment, EmailTasks
 from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping, PO_PRIORITIES, AssignedChecks
 from hc.front.forms import (AddChannelForm, AddWebhookForm, NameTagsForm,
                             TimeoutForm, AddBlogForm, AddCategoryForm, AddCommentForm,
-<<<<<<< HEAD
-                            FaqForm, AfricasTalkingForm)
-=======
-                            FaqForm, EmailTaskForm)
->>>>>>> 3982c0f235d268c6a35da1d6c091dfda20401a5a
+                            FaqForm, AfricasTalkingForm,EmailTaskForm)
 
 from hc.front.models import FrequentlyAskedQuestion
 
