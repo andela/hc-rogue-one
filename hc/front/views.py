@@ -20,7 +20,7 @@ from hc.front.models import Category, Blog, Comment, EmailTasks
 from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Department, Channel, Check, Ping, PO_PRIORITIES, AssignedChecks
 from hc.front.forms import (AddChannelForm, AddDepartmentForm, AddWebhookForm, NameTagsForm,
                             TimeoutForm, AddBlogForm, AddCategoryForm, AddCommentForm,
-                            FaqForm, EmailTaskForm)
+                            FaqForm, AfricasTalkingForm,EmailTaskForm)
 
 from hc.front.models import FrequentlyAskedQuestion
 
@@ -472,7 +472,10 @@ def channels(request):
 
 
 def do_add_channel(request, data):
-    form = AddChannelForm(data)
+    if data.get('kind') == 'aftsms':
+        form = AfricasTalkingForm(data)
+    else:
+        form = AddChannelForm(data)
     if form.is_valid():
         channel = form.save(commit=False)
         channel.user = request.team.user
@@ -769,6 +772,11 @@ def faq(request):
         })
 
 @login_required
+def add_sms(request):
+    ctx = {"page": "channels"}
+    return render(request, "integrations/add_sms.html", ctx)
+
+@login_required
 def departments(request):
     """ Display departments created by team members """
     depts = Department.objects.filter(user=request.team.user).order_by("created")
@@ -796,6 +804,3 @@ def add_department(request):
 
     ctx = {"page": "add_department", "form": form}
     return render(request, "front/add_department.html", ctx)
-
-
-

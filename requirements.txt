@@ -1,3 +1,4 @@
+AfricastalkingGateway==2.0
 amqp==2.2.2
 astroid==1.6.3
 billiard==3.5.0.3
@@ -30,7 +31,9 @@ Pillow==5.1.0
 premailer==2.9.6
 psycopg2==2.7.4
 psycopg2-binary==2.7.4
+PyJWT==1.6.1
 pylint==1.8.4
+PySocks==1.6.8
 pytz==2018.4
 rcssmin==1.0.6
 redis==2.10.6

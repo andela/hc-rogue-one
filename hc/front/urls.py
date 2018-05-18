@@ -27,6 +27,7 @@ channel_urls = [
     url(r'^([\w-]+)/remove/$', views.remove_channel, name="hc-remove-channel"),
     url(r'^([\w-]+)/verify/([\w-]+)/$', views.verify_email,
         name="hc-verify-email"),
+    url(r'^add_sms/$', views.add_sms, name="hc-add-sms"),
 ]
 
 urlpatterns = [

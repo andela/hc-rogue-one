@@ -111,6 +111,14 @@ class FaqForm(forms.ModelForm):
         model = FrequentlyAskedQuestion
         fields = ('email', 'question')
 
+class AfricasTalkingForm(forms.ModelForm):
+    class Meta:
+        model = Channel
+        fields = ['kind', 'africas_talking_username', 'africas_talking_api_key', 'value']
+
+    def clean_value(self):
+        value = self.cleaned_data["value"]
+        return value.strip()
 
 class EmailTaskForm(forms.ModelForm):
 
