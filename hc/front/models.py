@@ -60,3 +60,15 @@ class FrequentlyAskedQuestion(models.Model):
     answer = models.TextField(blank=True,null=True)
     email = models.EmailField(help_text='Enter your email')
     status = models.CharField(choices=CHOICES,max_length=1,default='h')
+
+class EmailTasks(models.Model):
+    owner = models.ForeignKey(User)
+    task_name = models.CharField(max_length=100, unique=True)
+    subject = models.CharField(max_length=100)
+    recipients = models.CharField(max_length=200)
+    message = models.TextField()
+    interval =models.CharField(max_length=100)
+    time = models.IntegerField()
+
+    def __str__(self):
+        return self.task_name
