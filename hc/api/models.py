@@ -79,6 +79,7 @@ class Check(models.Model):
 
         errors = []
         for channel in self.channel_set.all():
+            # if channel.kind == 'email' and channel.value = User.objects.get()
             error = channel.notify(self)
             if error not in ("", "no-op"):
                 errors.append((channel, error))
