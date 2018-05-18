@@ -74,13 +74,26 @@
                 {% if profile.member_set.count %}
                     <table class="table">
                         <tr>
+                            <td>Email</td>
+                            <td>Notification</td>
+                            <td>Ownership</td>
+                            <td>Action</td>
+                        </tr>
+                        <tr>
                             <td>{{ profile.user.email }}</td>
+                            <td></td>
                             <td>Owner</td>
                             <td></td>
                         </tr>
                         {% for member in profile.member_set.all %}
                         <tr>
                             <td>{{ member.user.email }} </td>
+                            <td><a
+                                href="#"
+                                data-priority-email="{{ member.user.email }}"
+                                class="btn btn-success btn-sm member-email"
+                                data-toggle="modal"
+                                data-target="#set-notification-priority-modal">set priority </a></td>
                             <td>Member</td>
                             <td>
                                 <a
@@ -341,6 +354,83 @@
                         type="submit"
                         name="invite_team_member"
                         class="btn btn-primary">Send Invite</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="set-notification-priority-modal" class="modal">
+    <div class="modal-dialog">
+        <form method="post" class="form-horizontal">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="remove-check-title">Set Notification Priority</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="itm-email" class="col-sm-8 control-label" id="priority-team-member-email">Priorities For </label>
+                        <input type="hidden" id="email_input" name="email" value="{{ member.user.email }}"/>
+                    </div>
+                    <p>Set Priority</p>
+                    <table class="table channel-checks-table">
+                        <tr>
+                            <th class="check-all-cell">
+                                <input
+                                    id="toggle-all"
+                                    type="checkbox"
+                                    class="toggle" />
+                            </th>
+                            <th class="check-all-cell" colspan="1">
+                                Select / Unselect All
+                            </th>
+                            <th></th>
+                            <th>Priority</th>
+                        </tr>
+                        {% for check in checks %}
+                        <tr>
+                            <td>
+                                <input
+                                    type="checkbox"
+                                    class="toggle"
+                                    data-toggle="checkbox-x"
+                                     checked
+                                    name="check-{{ check.code }}">
+
+                            </td>
+                            <td>
+                                {% if check.name %}
+                                    {{ check.name }}
+                                {% else %}
+                                    <span class="unnamed">unnamed</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <code>{{ check.code }}</code>
+                            </td>
+                            <td>
+                            <div class="form-group">
+                            <select name="notification-priority-{{ check.code }}" class="form-control" id="select-priority">
+                              <option value="0">first</option>
+                              <option value="1">second</option>
+                              <option value="2">third</option>
+                              <option value="3">fourth</option>
+                              <option value="4">fifth</option>
+                            </select>
+                            </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="submit"
+                        name="set-notification-priority"
+                        class="btn btn-primary">Save Priorities</button>
                 </div>
             </div>
         </form>
