@@ -27,6 +27,7 @@
         {% for ch in channels %}
         <tr class="channel-row">
             <td>
+            {% if ch.kind == "aftsms" %} SMS {% endif %}
             {% if ch.kind == "email" %} Email {% endif %}
             {% if ch.kind == "webhook" %} Webhook {% endif %}
             {% if ch.kind == "slack" %} Slack {% endif %}
@@ -126,6 +127,12 @@
 
     <h1 class="ai-title">Add More</h1>
     <ul class="add-integration">
+        <li>
+            <img src="{% static 'img/integrations/sms.png' %}" class="icon" alt="sms icon" />
+            <h2>SMS</h2>
+            <p>Get instant sms notification on your mobile phone.</p>
+            <a href="{% url 'hc-add-sms' %}" class="btn btn-primary">Add Integration</a>
+        </li>
         <li>
             <img src="{% static 'img/integrations/slack.png' %}"
                 class="icon" alt="Slack icon" />

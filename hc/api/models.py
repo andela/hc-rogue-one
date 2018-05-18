@@ -24,7 +24,7 @@ STATUSES = (
 DEFAULT_TIMEOUT = td(days=1)
 DEFAULT_GRACE = td(hours=1)
 CHANNEL_KINDS = (("email", "Email"), ("webhook", "Webhook"),
-                 ("hipchat", "HipChat"),
+                 ("hipchat", "HipChat"), ("aftsms","AfricasTalkingSms"),
                  ("slack", "Slack"), ("pd", "PagerDuty"), ("po", "Pushover"),
                  ("victorops", "VictorOps"))
 
@@ -160,6 +160,8 @@ class Channel(models.Model):
     value = models.TextField(blank=True)
     email_verified = models.BooleanField(default=False)
     checks = models.ManyToManyField(Check)
+    africas_talking_username = models.CharField(max_length=30, blank=True, help_text="Africas Talking Username")
+    africas_talking_api_key = models.CharField(max_length=100, default="", blank=True, null=True)
 
     def assign_all_checks(self):
         checks = Check.objects.filter(user=self.user)
@@ -180,6 +182,8 @@ class Channel(models.Model):
 
     @property
     def transport(self):
+        if self.kind == "aftsms":
+            return transports.AfricasTalking(self)
         if self.kind == "email":
             return transports.Email(self)
         elif self.kind == "webhook":

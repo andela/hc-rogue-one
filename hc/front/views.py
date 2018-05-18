@@ -20,7 +20,7 @@ from hc.front.models import Category, Blog, Comment
 from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping, PO_PRIORITIES, AssignedChecks
 from hc.front.forms import (AddChannelForm, AddWebhookForm, NameTagsForm,
                             TimeoutForm, AddBlogForm, AddCategoryForm, AddCommentForm,
-                            FaqForm)
+                            FaqForm, AfricasTalkingForm)
 
 from hc.front.models import FrequentlyAskedQuestion
 
@@ -435,7 +435,10 @@ def channels(request):
 
 
 def do_add_channel(request, data):
-    form = AddChannelForm(data)
+    if data.get('kind') == 'aftsms':
+        form = AfricasTalkingForm(data)
+    else:
+        form = AddChannelForm(data)
     if form.is_valid():
         channel = form.save(commit=False)
         channel.user = request.team.user
@@ -730,3 +733,8 @@ def faq(request):
         "message":message,
         "frequently_asked_questions":frequently_asked_questions
         })
+
+@login_required
+def add_sms(request):
+    ctx = {"page": "channels"}
+    return render(request, "integrations/add_sms.html", ctx)

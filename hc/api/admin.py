@@ -157,7 +157,9 @@ class ChannelsAdmin(admin.ModelAdmin):
         return obj.user.email if obj.user else None
 
     def formatted_kind(self, obj):
-        if obj.kind == "pd":
+        if obj.kind == "aftsms":
+            return "AFTSMS"
+        elif obj.kind == "pd":
             return "PagerDuty"
         elif obj.kind == "victorops":
             return "VictorOps"

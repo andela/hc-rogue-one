@@ -5,7 +5,7 @@ import json
 import requests
 from six.moves.urllib.parse import quote
 
-from hc.lib import emails
+from hc.lib import emails, aft_sms
 
 
 def tmpl(template_name, **ctx):
@@ -216,3 +216,15 @@ class VictorOps(HttpTransport):
         }
 
         return self.post(self.channel.value, payload)
+
+class AfricasTalking(Transport):
+    def notify(self, check):
+        if len(self.channel.africas_talking_api_key) == 0:
+            return "AfrciaTalkingAPI Key cannot be empty"
+
+        ctx = {
+            'check': check,
+            'channel': self.channel
+        }
+
+        return aft_sms.send_sms(ctx)
