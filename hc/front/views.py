@@ -17,8 +17,8 @@ from django.utils.crypto import get_random_string
 from django.utils.six.moves.urllib.parse import urlencode
 from hc.api.decorators import uuid_or_400
 from hc.front.models import Category, Blog, Comment, EmailTasks
-from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Channel, Check, Ping, PO_PRIORITIES, AssignedChecks
-from hc.front.forms import (AddChannelForm, AddWebhookForm, NameTagsForm,
+from hc.api.models import DEFAULT_GRACE, DEFAULT_TIMEOUT, Department, Channel, Check, Ping, PO_PRIORITIES, AssignedChecks
+from hc.front.forms import (AddChannelForm, AddDepartmentForm, AddWebhookForm, NameTagsForm,
                             TimeoutForm, AddBlogForm, AddCategoryForm, AddCommentForm,
                             FaqForm, EmailTaskForm)
 
@@ -50,6 +50,18 @@ def my_checks(request):
             if check.priority == PO_PRIORITIES[x]:
                 checks.append(check)
     checks.reverse()
+
+    if request.GET.get('department') and request.GET.get('department') != "all":
+        try:
+            department = int(request.GET.get('department'))
+        except ValueError:
+            raise Http404("Department specified cannot be found.")
+    else:
+        department = "all"
+    if department != "all":
+        checks = [check for check in checks if check.department_id == department]
+    depts = Department.objects.filter(user=request.team.user)
+
     counter = Counter()
     down_tags, grace_tags = set(), set()
     for check in checks:
@@ -69,6 +81,8 @@ def my_checks(request):
         "page": "checks",
         "page_title": 'My Checks',
         "checks": checks,
+        "departments": depts,
+        "department": department,
         "now": timezone.now(),
         "tags": counter.most_common(),
         "down_tags": down_tags,
@@ -309,6 +323,7 @@ def update_name(request, code):
     if form.is_valid():
         check.name = form.cleaned_data["name"]
         check.tags = form.cleaned_data["tags"]
+        check.department_id = form.cleaned_data["department"]
         check.save()
 
     return redirect("hc-checks")
@@ -752,3 +767,35 @@ def faq(request):
         "message":message,
         "frequently_asked_questions":frequently_asked_questions
         })
+
+@login_required
+def departments(request):
+    """ Display departments created by team members """
+    depts = Department.objects.filter(user=request.team.user).order_by("created")
+
+    ctx = {
+        "page": "departments",
+        "departments": depts
+    }
+
+    return render(request, "front/departments.html", ctx)
+
+@login_required
+def add_department(request):
+    """ Add a new department to existing departments """
+    if request.method == "POST":
+        form = AddDepartmentForm(request.POST)
+        if form.is_valid():
+            department = form.save(commit=False)
+            department.user = request.team.user
+            department.save()
+            messages.success(request, "New department has been added!")
+            return redirect("hc-departments")
+    else:
+        form = AddDepartmentForm
+
+    ctx = {"page": "add_department", "form": form}
+    return render(request, "front/add_department.html", ctx)
+
+
+

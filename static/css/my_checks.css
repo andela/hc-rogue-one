@@ -71,3 +71,9 @@
  #show-usage-modal .tab-content {
      margin-top: 15px;
  }
+
+ div.float-items {
+     float: left;
+     margin: 7px;
+}
+

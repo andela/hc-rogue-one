@@ -1,5 +1,5 @@
 from django import forms
-from hc.api.models import Channel
+from hc.api.models import Channel, Department
 from ckeditor.fields import RichTextField
 from hc.front.models import Category, Blog, Comment, FrequentlyAskedQuestion, EmailTasks
 
@@ -7,6 +7,10 @@ from hc.front.models import Category, Blog, Comment, FrequentlyAskedQuestion, Em
 class NameTagsForm(forms.Form):
     name = forms.CharField(max_length=100, required=False)
     tags = forms.CharField(max_length=500, required=False)
+    department = forms.ModelChoiceField(queryset=Department.objects.all(), \
+            widget=forms.Select(), required=False)
+
+
 
     def clean_tags(self):
         l = []
@@ -23,6 +27,17 @@ class TimeoutForm(forms.Form):
     timeout = forms.IntegerField(min_value=60, max_value=31104000)
     grace = forms.IntegerField(min_value=60, max_value=31104000)
     priority = forms.IntegerField(min_value=-2, max_value=2)
+
+class AddDepartmentForm(forms.ModelForm):
+    """ Form for creating/updating a department """
+
+    class Meta:
+        model = Department
+        fields = ['name']
+
+    def clean_name(self):
+        name = self.cleaned_data["name"]
+        return name.strip()
 
 class AddChannelForm(forms.ModelForm):
 
