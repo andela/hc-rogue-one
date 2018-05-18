@@ -2,6 +2,13 @@
     margin-bottom: 0;
 }
 
+.carousel-indicators .active {
+    background-color: #9c3f3f !important;
+}
+.carousel-indicators li {
+    border: 1px solid #9c3f3f !important;
+}
+
 .index-bleed {
     background: #FFF;
     padding-bottom: 2em;
