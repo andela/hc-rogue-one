@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+    {% load compress humanize staticfiles hc_extras %} 
+{% block title %}
+     Notification Channels - healthchecks.io
+{% endblock %} 
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-12">
+            <h1>AfricasTalking SMS</h1>
+
+    <p>Currently we use <a href="https://africastalking.com/">AfricasTalking</a> to send sms alerts to system users.</p>
+
+    <h2>Setup Guide</h2>
+
+    <div class="row ai-step">
+        <div class="col-sm-6">
+            <span class="step-no">1</span>
+            Log into your AfricasTalking account and
+            create a Team. Access the newly created team, Then <strong>go to Create App, add the App name and Username.</strong>
+        </div>
+        <div class="col-sm-6">
+            <img
+                class="ai-guide-screenshot"
+                alt="Screenshot"
+                src="{% static 'img/integrations/create_app.png' %}">
+        </br>
+        </br>
+            <img
+                class="ai-guide-screenshot"
+                alt="Screenshot"
+                src="{% static 'img/integrations/create_team2.png' %}">
+
+        </br>
+        </br>
+        <img
+                class="ai-guide-screenshot"
+                alt="Screenshot"
+                src="{% static 'img/integrations/create_team.png' %}">
+        </div>
+    </div>
+    <hr/>
+    <div class="row ai-step">
+        <div class="col-sm-6">
+            <span class="step-no">2</span>
+            Click on the name of the created app to access the dashboard. From the dashboard go to <strong>Settings > API Key</strong>.  
+        </div>
+        <div class="col-sm-6">
+            <img
+                class="ai-guide-screenshot"
+                alt="Screenshot"
+                src="{% static 'img/integrations/created_app.png' %}">
+            </br>
+            </br>
+                <img
+                    class="ai-guide-screenshot"
+                    alt="Screenshot"
+                    src="{% static 'img/integrations/dashboard.png' %}">
+        </div>
+
+    </div>
+    <hr/>
+    <div class="row ai-step">
+        <div class="col-sm-6">
+            <span class="step-no">3</span>
+            <p> Place in your AfricasTalking password to generate your app API Key. </p>
+        </br>
+            <p><blockquote><strong> API Key will be generated then paste it below along with the username used while creating the app.</strong></blockquote></p>
+        </div>
+        <div class="col-sm-6">
+                <img
+                    class="ai-guide-screenshot"
+                    alt="Screenshot"
+                    src="{% static 'img/integrations/password_request.png' %}">
+        </div>
+    </div>
+    <hr/>
+        <h2>Integration Settings</h2>
+        <form method="post" class="form-horizontal" action="{% url 'hc-add-channel' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="row">
+                    <label for="id_africas_talking_username" class="col-sm-2 control-label">AfricasTalking Username</label>
+                    <div class="col-sm-6">
+                        <input id="id_africas_talking_username" type="text" class="form-control" name="africas_talking_username" placeholder="Enter your AfricasTalking username">
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <label for="id_africas_talking_api_key" class="col-sm-2 control-label">AfricasTalking API Key</label>
+                    <div class="col-sm-6">
+                        <input id="id_africas_talking_api_key" type="text" class="form-control" name="africas_talking_api_key" placeholder="Enter your AfricasTalking API Key">
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <label for="id_value" class="col-sm-2 control-label">Mobile Number</label>
+                    <div class="col-sm-6">
+                        <input id="id_value" type="text" class="form-control" name="value" placeholder="Enter your telephone number here">
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="kind" value="aftsms" />
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-success btn-md">Save SMS Integration</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 
+
+{% block scripts %} 
+{% compress js %}
+<script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+{% endcompress %} 
+{% endblock %}

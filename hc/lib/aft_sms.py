@@ -21,7 +21,7 @@ def send_sms(ctx):
     dtfmt = "%Y-%m-%d %H:%M"
 
     if check and channel:
-        username, api_key, recipients = channel.username, channel.api_key, channel.value
+        username, api_key, recipients = channel.africas_talking_username, channel.africas_talking_api_key, channel.value
         message = """
 HEALTH-CHECKS ALERT!!
         Name: %(name)s\n

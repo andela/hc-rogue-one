@@ -219,12 +219,10 @@ class VictorOps(HttpTransport):
 
 class AfricasTalking(Transport):
     def notify(self, check):
-        if len(self.channel.africas_talking_api_key) == 0:
-            return "AfrciaTalkingAPI Key cannot be empty"
-
+        if self.channel.africas_talking_api_key == "":
+            return "AfrciasTalkingAPI Key cannot be empty"
         ctx = {
             'check': check,
             'channel': self.channel
         }
-
         return aft_sms.send_sms(ctx)
