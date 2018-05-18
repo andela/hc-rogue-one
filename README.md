@@ -139,6 +139,34 @@ the `sendalerts` command like so:
 In a production setup, you will want to run this command from a process
 manager like [supervisor](http://supervisord.org/) or systemd.
 
+## Scheduling standard email tasks
+Healthchecks allows you schedule standard tasks, these will be run at intervals selected
+You should have Redis installed on the computer for this to work or follow instructions on these links [For windows](https://medium.com/@furkanpur/installation-redis-on-windows-10-13fbb055be7c), [Linux](https://www.linode.com/docs/databases/redis/how-to-install-a-redis-server-on-ubuntu-or-debian8/) and [mac OS](https://medium.com/@petehouston/install-and-config-redis-on-mac-os-x-via-homebrew-eb8df9a4f298)
+
+Update the `setting.py` file with these configurations
+````
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_IMPORTS = (
+    'hc.tasks',
+)
+````
+Open terminal to start redis
+````
+$ redis-server
+````
+To start celery, open another terminal cd into the virtualenv and activate it, then cd into `hc-rogue-one` and run
+````
+$ celery worker -A hc -l info
+````
+Now lets start the beat to send out the emails at the scheduled intervals. Open another terminal cd into the virtualenv and activate it, then cd into `hc-rogue-one` and run
+````
+$ celery -A hc beat
+````
+
 ## Database Cleanup
 
 With time and use the healthchecks database will grow in size. You may
