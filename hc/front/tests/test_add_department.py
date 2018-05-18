@@ -15,7 +15,6 @@ class AddDepartmentTestCase(BaseTestCase):
         """ Test that new department can be created using URL """
         self.client.login(username="alice@example.org", password="password")
 
-        self.client.get("/departments/add/")
         form = {"name": "Marketing"}
         response = self.client.post("/departments/add/", form)
         self.assertEqual(response.status_code, 302)
